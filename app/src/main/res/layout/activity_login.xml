@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="@drawable/bg_gradient">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:padding="28dp">
+
+        <ImageView
+            android:id="@+id/imgLogo"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="40dp"
+            android:src="@drawable/agroia_logo"
+            android:contentDescription="Logo"
+            android:elevation="10dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="AgroIA Cam"
+            android:textColor="#F4FFF7"
+            android:textSize="36sp"
+            android:textStyle="bold"
+            android:layout_marginTop="12dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Monitoreo agrícola inteligente"
+            android:textColor="#B7CBBE"
+            android:textSize="15sp"
+            android:layout_marginBottom="40dp" />
+
+        <EditText
+            android:id="@+id/etUsername"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:background="@drawable/input_bg"
+            android:hint="Usuario"
+            android:inputType="text"
+            android:paddingHorizontal="18dp"
+            android:textColor="#F4FFF7"
+            android:textColorHint="#8FA79A"
+            android:layout_marginBottom="18dp" />
+
+        <EditText
+            android:id="@+id/etPassword"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:background="@drawable/input_bg"
+            android:hint="Contraseña"
+            android:inputType="textPassword"
+            android:paddingHorizontal="18dp"
+            android:textColor="#F4FFF7"
+            android:textColorHint="#8FA79A" />
+
+        <Button
+            android:id="@+id/btnLogin"
+            android:layout_width="match_parent"
+            android:layout_height="62dp"
+            android:layout_marginTop="28dp"
+            android:text="Iniciar Sesión"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:background="@drawable/button_green"
+            android:stateListAnimator="@null" />
+
+        <Button
+            android:id="@+id/btnRegister"
+            android:layout_width="match_parent"
+            android:layout_height="62dp"
+            android:layout_marginTop="18dp"
+            android:text="Crear Cuenta"
+            android:textAllCaps="false"
+            android:textColor="#F4FFF7"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:background="@drawable/button_dark"
+            android:stateListAnimator="@null" />
+
+    </LinearLayout>
+
+</ScrollView>

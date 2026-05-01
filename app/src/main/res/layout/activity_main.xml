@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_gradient"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="22dp">
+
+        <!-- HEADER -->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="🌿 AgroIA Cam"
+            android:textColor="#F4FFF7"
+            android:textSize="34sp"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cuida tus plantas con inteligencia artificial"
+            android:textColor="#B7CBBE"
+            android:textSize="15sp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="28dp" />
+
+        <!-- CARD PRINCIPAL -->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/card_glass"
+            android:padding="24dp"
+            android:layout_marginBottom="24dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="📷 Analizar Planta"
+                android:textColor="#F4FFF7"
+                android:textSize="28sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Detecta problemas comunes en plantas del hogar."
+                android:textColor="#B7CBBE"
+                android:textSize="14sp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="22dp" />
+
+            <Button
+                android:id="@+id/btnCamera"
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:text="Abrir Cámara"
+                android:textAllCaps="false"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                android:textColor="#FFFFFF"
+                android:background="@drawable/button_green"
+                android:stateListAnimator="@null" />
+
+        </LinearLayout>
+
+        <!-- PLANTAS -->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Plantas compatibles"
+            android:textColor="#F4FFF7"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp" />
+
+        <!-- CARD PLANTAS -->
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none"
+            android:layout_marginBottom="24dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <!-- MONSTERA -->
+
+                <LinearLayout
+                    android:layout_width="140dp"
+                    android:layout_height="170dp"
+                    android:background="@drawable/card_glass"
+                    android:orientation="vertical"
+                    android:padding="18dp"
+                    android:layout_marginEnd="14dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="🌿"
+                        android:textSize="40sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Monstera"
+                        android:textColor="#F4FFF7"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:layout_marginTop="14dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Interior"
+                        android:textColor="#B7CBBE"
+                        android:textSize="13sp"
+                        android:layout_marginTop="6dp" />
+
+                </LinearLayout>
+
+                <!-- ALOE -->
+
+                <LinearLayout
+                    android:layout_width="140dp"
+                    android:layout_height="170dp"
+                    android:background="@drawable/card_glass"
+                    android:orientation="vertical"
+                    android:padding="18dp"
+                    android:layout_marginEnd="14dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="🪴"
+                        android:textSize="40sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Aloe Vera"
+                        android:textColor="#F4FFF7"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:layout_marginTop="14dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Medicinal"
+                        android:textColor="#B7CBBE"
+                        android:textSize="13sp"
+                        android:layout_marginTop="6dp" />
+
+                </LinearLayout>
+
+                <!-- CACTUS -->
+
+                <LinearLayout
+                    android:layout_width="140dp"
+                    android:layout_height="170dp"
+                    android:background="@drawable/card_glass"
+                    android:orientation="vertical"
+                    android:padding="18dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="🌵"
+                        android:textSize="40sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Cactus"
+                        android:textColor="#F4FFF7"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:layout_marginTop="14dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Bajo cuidado"
+                        android:textColor="#B7CBBE"
+                        android:textSize="13sp"
+                        android:layout_marginTop="6dp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </HorizontalScrollView>
+
+    </LinearLayout>
+
+</ScrollView>
