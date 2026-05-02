@@ -13,117 +13,89 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="AgroIA Cam"
-            android:textColor="#FFFFFF"
-            android:textSize="30sp"
+            android:text="🌿 Monstera"
+            android:textColor="#F4FFF7"
+            android:textSize="34sp"
             android:textStyle="bold"
-            android:layout_marginTop="20dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Dashboard agrícola"
-            android:textColor="#B8C4BB"
-            android:textSize="15sp"
-            android:layout_marginBottom="24dp" />
-
-        <!-- CARD ESTADO -->
+            android:layout_marginTop="16dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:background="@drawable/card_bg"
-            android:padding="20dp"
-            android:layout_marginBottom="18dp">
+            android:background="@drawable/card_glass"
+            android:padding="22dp"
+            android:layout_marginTop="22dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Estado del Cultivo"
-                android:textColor="#B8C4BB"
-                android:textSize="14sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="🌱 Saludable"
-                android:textColor="#FFFFFF"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                android:layout_marginTop="8dp" />
-
-        </LinearLayout>
-
-        <!-- CARD SALUD -->
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@drawable/card_bg"
-            android:padding="20dp"
-            android:layout_marginBottom="18dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Índice de Salud"
-                android:textColor="#B8C4BB"
-                android:textSize="14sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="87%"
-                android:textColor="#7BC96F"
-                android:textSize="42sp"
-                android:textStyle="bold"
-                android:layout_marginTop="8dp" />
-
-        </LinearLayout>
-
-        <!-- CARD DIAGNÓSTICO -->
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@drawable/card_bg"
-            android:padding="20dp"
-            android:layout_marginBottom="18dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Último Diagnóstico"
-                android:textColor="#B8C4BB"
-                android:textSize="14sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Posible deficiencia de nitrógeno"
-                android:textColor="#FFFFFF"
+                android:text="Estado IA: Saludable"
+                android:textColor="#F4FFF7"
                 android:textSize="20sp"
-                android:textStyle="bold"
-                android:layout_marginTop="8dp" />
+                android:textStyle="bold"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Humedad actual: 65%"
+                android:textColor="#4ADE80"
+                android:textSize="16sp"
+                android:layout_marginTop="10dp"/>
 
         </LinearLayout>
-
-        <!-- BOTÓN ESCANEAR -->
 
         <Button
-            android:id="@+id/btnScan"
+            android:id="@+id/btnPhoneAnalyze"
             android:layout_width="match_parent"
-            android:layout_height="64dp"
-            android:text="📷 Escanear Cultivo"
+            android:layout_height="60dp"
+            android:text="📷 Analizar con Teléfono"
+            android:textAllCaps="false"
             android:textColor="#FFFFFF"
             android:textStyle="bold"
-            android:textSize="18sp"
+            android:textSize="16sp"
+            android:background="@drawable/button_green"
+            android:stateListAnimator="@null"
+            android:layout_marginTop="24dp"/>
+
+        <Button
+            android:id="@+id/btnEspAnalyze"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="📡 Tomar Foto con ESP32"
             android:textAllCaps="false"
-            android:background="@drawable/button_primary"
-            android:layout_marginTop="8dp" />
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:background="@drawable/button_dark"
+            android:stateListAnimator="@null"
+            android:layout_marginTop="14dp"/>
+
+        <Button
+            android:id="@+id/btnCare"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="🪴 Registrar Actividad"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:background="@drawable/button_outline"
+            android:stateListAnimator="@null"
+            android:layout_marginTop="14dp"/>
+
+        <Button
+            android:id="@+id/btnHistory"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="📈 Ver Historial"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:background="@drawable/button_outline"
+            android:stateListAnimator="@null"
+            android:layout_marginTop="14dp"/>
 
     </LinearLayout>
 

@@ -11,10 +11,12 @@
         android:orientation="vertical"
         android:padding="22dp">
 
+        <!-- HEADER -->
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Historial"
+            android:text=" Historial"
             android:textColor="#F4FFF7"
             android:textSize="34sp"
             android:textStyle="bold"
@@ -23,117 +25,23 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Diagnósticos recientes de la IA"
+            android:text="Actividad reciente y resultados de IA."
             android:textColor="#B7CBBE"
             android:textSize="14sp"
-            android:layout_marginBottom="26dp" />
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="24dp" />
 
-        <!-- ITEM 1 -->
+        <!-- ACTIVIDAD -->
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@drawable/card_glass"
-            android:padding="20dp"
-            android:layout_marginBottom="16dp">
+        <include layout="@layout/item_history"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="🌿 Hoja Saludable"
-                android:textColor="#F4FFF7"
-                android:textSize="22sp"
-                android:textStyle="bold" />
+        <!-- RESULTADO IA -->
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Precisión IA: 98%"
-                android:textColor="#4ADE80"
-                android:textSize="15sp"
-                android:layout_marginTop="8dp" />
+        <include layout="@layout/item_result"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Hace 2 minutos"
-                android:textColor="#B7CBBE"
-                android:textSize="13sp"
-                android:layout_marginTop="6dp" />
+        <!-- MÁS ACTIVIDAD -->
 
-        </LinearLayout>
-
-        <!-- ITEM 2 -->
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@drawable/card_glass"
-            android:padding="20dp"
-            android:layout_marginBottom="16dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="🦠 Roya Detectada"
-                android:textColor="#F4FFF7"
-                android:textSize="22sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Precisión IA: 91%"
-                android:textColor="#FACC15"
-                android:textSize="15sp"
-                android:layout_marginTop="8dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Hoy 10:34 AM"
-                android:textColor="#B7CBBE"
-                android:textSize="13sp"
-                android:layout_marginTop="6dp" />
-
-        </LinearLayout>
-
-        <!-- ITEM 3 -->
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@drawable/card_glass"
-            android:padding="20dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="🍂 Deficiencia de Nitrógeno"
-                android:textColor="#F4FFF7"
-                android:textSize="22sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Precisión IA: 87%"
-                android:textColor="#FB923C"
-                android:textSize="15sp"
-                android:layout_marginTop="8dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Ayer"
-                android:textColor="#B7CBBE"
-                android:textSize="13sp"
-                android:layout_marginTop="6dp" />
-
-        </LinearLayout>
+        <include layout="@layout/item_history"/>
 
     </LinearLayout>
 
