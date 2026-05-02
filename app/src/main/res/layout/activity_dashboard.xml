@@ -8,95 +8,171 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="22dp">
+        android:paddingStart="22dp"
+        android:paddingEnd="22dp"
+        android:paddingBottom="32dp">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <!-- Header -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="🌿 Monstera"
-            android:textColor="#F4FFF7"
-            android:textSize="34sp"
-            android:textStyle="bold"
-            android:layout_marginTop="16dp"/>
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="8dp">
 
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Mi Planta"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="13sp"/>
+
+                <TextView
+                    android:id="@+id/tvPlantName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Monstera"
+                    android:textColor="@color/text_primary"
+                    android:textSize="30sp"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+
+            <!-- Badge estado IA -->
+            <TextView
+                android:id="@+id/tvStatusBadge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Saludable"
+                android:textColor="@color/status_ok"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:background="@drawable/badge_ok"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:paddingTop="6dp"
+                android:paddingBottom="6dp"/>
+        </LinearLayout>
+
+        <!-- Tarjeta resumen IA -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:background="@drawable/card_glass"
             android:padding="22dp"
-            android:layout_marginTop="22dp">
+            android:layout_marginTop="18dp"
+            android:layout_marginBottom="24dp">
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Último análisis"
+                android:textColor="@color/text_secondary"
+                android:textSize="12sp"
+                android:layout_marginBottom="6dp"/>
+
+            <TextView
+                android:id="@+id/tvIaStatus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Estado IA: Saludable"
-                android:textColor="#F4FFF7"
+                android:textColor="@color/text_primary"
                 android:textSize="20sp"
                 android:textStyle="bold"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Humedad actual: 65%"
-                android:textColor="#4ADE80"
-                android:textSize="16sp"
-                android:layout_marginTop="10dp"/>
+            <!-- Separador -->
+            <View android:layout_width="match_parent" android:layout_height="1dp"
+                android:background="@drawable/divider_soft" android:layout_marginTop="14dp"
+                android:layout_marginBottom="14dp"/>
+
+            <!-- Humedad -->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:orientation="horizontal" android:gravity="center_vertical">
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                    android:layout_weight="1" android:text="Humedad del suelo"
+                    android:textColor="@color/text_secondary" android:textSize="14sp"/>
+                <TextView android:id="@+id/tvHumedad"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="65%" android:textColor="@color/green_glow"
+                    android:textStyle="bold" android:textSize="16sp"/>
+            </LinearLayout>
+
+            <!-- Temperatura -->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:orientation="horizontal" android:gravity="center_vertical"
+                android:layout_marginTop="10dp">
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                    android:layout_weight="1" android:text="Temperatura"
+                    android:textColor="@color/text_secondary" android:textSize="14sp"/>
+                <TextView android:id="@+id/tvTemperatura"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="24°C" android:textColor="@color/amber"
+                    android:textStyle="bold" android:textSize="16sp"/>
+            </LinearLayout>
 
         </LinearLayout>
 
+        <!-- Botón analizar con cámara -->
         <Button
             android:id="@+id/btnPhoneAnalyze"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:text="📷 Analizar con Teléfono"
+            android:layout_height="58dp"
+            android:text="Analizar con Cámara"
             android:textAllCaps="false"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/white"
             android:textStyle="bold"
             android:textSize="16sp"
             android:background="@drawable/button_green"
-            android:stateListAnimator="@null"
-            android:layout_marginTop="24dp"/>
+            android:stateListAnimator="@null"/>
 
+        <!-- Botón ESP32 -->
         <Button
             android:id="@+id/btnEspAnalyze"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:text="📡 Tomar Foto con ESP32"
+            android:layout_height="58dp"
+            android:text="Foto con ESP32-CAM"
             android:textAllCaps="false"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/text_primary"
             android:textStyle="bold"
             android:textSize="16sp"
             android:background="@drawable/button_dark"
             android:stateListAnimator="@null"
-            android:layout_marginTop="14dp"/>
+            android:layout_marginTop="12dp"/>
 
+        <!-- Botón registrar actividad -->
         <Button
             android:id="@+id/btnCare"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:text="🪴 Registrar Actividad"
+            android:layout_height="58dp"
+            android:text="Registrar Actividad"
             android:textAllCaps="false"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/text_accent"
             android:textStyle="bold"
             android:textSize="16sp"
             android:background="@drawable/button_outline"
             android:stateListAnimator="@null"
-            android:layout_marginTop="14dp"/>
+            android:layout_marginTop="12dp"/>
 
+        <!-- Botón historial -->
         <Button
             android:id="@+id/btnHistory"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:text="📈 Ver Historial"
+            android:layout_height="58dp"
+            android:text="Ver Historial"
             android:textAllCaps="false"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/text_accent"
             android:textStyle="bold"
             android:textSize="16sp"
             android:background="@drawable/button_outline"
             android:stateListAnimator="@null"
-            android:layout_marginTop="14dp"/>
+            android:layout_marginTop="12dp"/>
 
     </LinearLayout>
-
 </ScrollView>

@@ -4,58 +4,96 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:background="@drawable/card_glass"
-    android:padding="18dp"
-    android:layout_marginTop="18dp">
+    android:padding="20dp"
+    android:layout_marginTop="14dp">
 
-    <!-- TIPO RESULTADO -->
-
-    <TextView
-        android:layout_width="wrap_content"
+    <!-- Fila superior: tipo resultado + badge -->
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="🦠 Hongos leves detectados"
-        android:textColor="#F4FFF7"
-        android:textStyle="bold"
-        android:textSize="20sp" />
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="12dp">
 
-    <!-- PLANTA -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Planta: Monstera"
-        android:textColor="#B7CBBE"
-        android:textSize="14sp"
-        android:layout_marginTop="8dp" />
+            <TextView
+                android:id="@+id/tvResultType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hongos leves detectados"
+                android:textColor="@color/text_primary"
+                android:textStyle="bold"
+                android:textSize="18sp"/>
 
-    <!-- PRECISIÓN -->
+            <TextView
+                android:id="@+id/tvPlantName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Planta: Monstera"
+                android:textColor="@color/text_secondary"
+                android:textSize="13sp"
+                android:layout_marginTop="3dp"/>
+        </LinearLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Precisión IA: 92%"
-        android:textColor="#4ADE80"
-        android:textStyle="bold"
-        android:textSize="14sp"
-        android:layout_marginTop="6dp" />
+        <!-- Badge de estado -->
+        <TextView
+            android:id="@+id/tvBadge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Aviso"
+            android:textColor="@color/status_warn"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:background="@drawable/badge_warn"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"/>
+    </LinearLayout>
 
-    <!-- MÉTODO -->
+    <!-- Separador -->
+    <View android:layout_width="match_parent" android:layout_height="1dp"
+        android:background="@drawable/divider_soft" android:layout_marginBottom="12dp"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Método: ESP32-CAM"
-        android:textColor="#B7CBBE"
-        android:textSize="13sp"
-        android:layout_marginTop="6dp" />
+    <!-- Precisión -->
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="horizontal" android:gravity="center_vertical"
+        android:layout_marginBottom="8dp">
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+            android:layout_weight="1" android:text="Precisión IA"
+            android:textColor="@color/text_secondary" android:textSize="13sp"/>
+        <TextView android:id="@+id/tvPrecision"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="92%" android:textColor="@color/green_glow"
+            android:textStyle="bold" android:textSize="14sp"/>
+    </LinearLayout>
 
-    <!-- FECHA -->
+    <!-- Barra de precisión -->
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="6dp"
+        android:max="100"
+        android:progress="92"
+        android:layout_marginBottom="12dp"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hoy • 4:32 PM"
-        android:textColor="#8FA79A"
-        android:textSize="12sp"
-        android:layout_marginTop="10dp" />
+    <!-- Método y fecha -->
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView android:id="@+id/tvMethod"
+            android:layout_width="0dp" android:layout_height="wrap_content"
+            android:layout_weight="1" android:text="Método: ESP32-CAM"
+            android:textColor="@color/text_secondary" android:textSize="12sp"/>
+        <TextView android:id="@+id/tvDate"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="Hoy, 4:32 PM" android:textColor="@color/text_hint"
+            android:textSize="12sp"/>
+    </LinearLayout>
 
 </LinearLayout>

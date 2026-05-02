@@ -10,83 +10,125 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="center_horizontal"
-        android:padding="28dp">
+        android:paddingStart="28dp"
+        android:paddingEnd="28dp">
 
+        <!-- Logo -->
         <ImageView
             android:id="@+id/imgLogo"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_marginTop="40dp"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            android:layout_marginTop="56dp"
             android:src="@drawable/agroia_logo"
-            android:contentDescription="Logo"
-            android:elevation="10dp" />
+            android:contentDescription="AgroIA Logo"
+            android:elevation="8dp"/>
 
+        <!-- Título -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="AgroIA Cam"
-            android:textColor="#F4FFF7"
-            android:textSize="36sp"
+            android:textColor="@color/text_primary"
+            android:textSize="34sp"
             android:textStyle="bold"
-            android:layout_marginTop="12dp" />
+            android:layout_marginTop="16dp"
+            android:letterSpacing="0.02"/>
 
+        <!-- Subtítulo -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Monitoreo agrícola inteligente"
-            android:textColor="#B7CBBE"
-            android:textSize="15sp"
-            android:layout_marginBottom="40dp" />
+            android:textColor="@color/text_secondary"
+            android:textSize="14sp"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="44dp"/>
+
+        <!-- Campo usuario -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Usuario"
+            android:textColor="@color/text_secondary"
+            android:textSize="13sp"
+            android:layout_marginBottom="8dp"/>
 
         <EditText
             android:id="@+id/etUsername"
             android:layout_width="match_parent"
-            android:layout_height="58dp"
+            android:layout_height="56dp"
             android:background="@drawable/input_bg"
-            android:hint="Usuario"
+            android:hint="Ingresa tu usuario"
             android:inputType="text"
-            android:paddingHorizontal="18dp"
-            android:textColor="#F4FFF7"
-            android:textColorHint="#8FA79A"
-            android:layout_marginBottom="18dp" />
+            android:paddingStart="18dp"
+            android:paddingEnd="18dp"
+            android:textColor="@color/text_primary"
+            android:textColorHint="@color/text_hint"
+            android:textSize="15sp"
+            android:layout_marginBottom="18dp"/>
+
+        <!-- Campo contraseña -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Contraseña"
+            android:textColor="@color/text_secondary"
+            android:textSize="13sp"
+            android:layout_marginBottom="8dp"/>
 
         <EditText
             android:id="@+id/etPassword"
             android:layout_width="match_parent"
-            android:layout_height="58dp"
+            android:layout_height="56dp"
             android:background="@drawable/input_bg"
-            android:hint="Contraseña"
+            android:hint="Ingresa tu contraseña"
             android:inputType="textPassword"
-            android:paddingHorizontal="18dp"
-            android:textColor="#F4FFF7"
-            android:textColorHint="#8FA79A" />
+            android:paddingStart="18dp"
+            android:paddingEnd="18dp"
+            android:textColor="@color/text_primary"
+            android:textColorHint="@color/text_hint"
+            android:textSize="15sp"/>
 
+        <!-- Error -->
+        <TextView
+            android:id="@+id/tvError"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textColor="@color/status_err"
+            android:textSize="13sp"
+            android:layout_marginTop="8dp"
+            android:visibility="gone"/>
+
+        <!-- Botón iniciar sesión -->
         <Button
             android:id="@+id/btnLogin"
             android:layout_width="match_parent"
-            android:layout_height="62dp"
+            android:layout_height="56dp"
             android:layout_marginTop="28dp"
             android:text="Iniciar Sesión"
             android:textAllCaps="false"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/white"
             android:textStyle="bold"
             android:textSize="16sp"
             android:background="@drawable/button_green"
-            android:stateListAnimator="@null" />
+            android:stateListAnimator="@null"/>
 
+        <!-- Botón crear cuenta -->
         <Button
             android:id="@+id/btnRegister"
             android:layout_width="match_parent"
-            android:layout_height="62dp"
-            android:layout_marginTop="18dp"
+            android:layout_height="56dp"
+            android:layout_marginTop="14dp"
             android:text="Crear Cuenta"
             android:textAllCaps="false"
-            android:textColor="#F4FFF7"
+            android:textColor="@color/text_primary"
             android:textStyle="bold"
             android:textSize="16sp"
             android:background="@drawable/button_dark"
-            android:stateListAnimator="@null" />
+            android:stateListAnimator="@null"/>
+
+        <View android:layout_width="match_parent" android:layout_height="40dp"/>
 
     </LinearLayout>
-
 </ScrollView>

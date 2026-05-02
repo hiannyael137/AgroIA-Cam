@@ -1,22 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="emerald_dark">#0D3D27</color>
-    <color name="emerald">#1B6B45</color>
-    <color name="emerald_mid">#2D8A5B</color>
-    <color name="emerald_light">#E8F5EE</color>
-    <color name="leaf_green">#4CAF7D</color>
-    <color name="off_white">#F7F5F0</color>
-    <color name="off_white_2">#EDE9E1</color>
-    <color name="text_dark">#1A1A1A</color>
-    <color name="text_mid">#4A5568</color>
-    <color name="text_light">#718096</color>
-    <color name="status_healthy">#4CAF7D</color>
-    <color name="status_warning">#F6C90E</color>
-    <color name="status_danger">#E55454</color>
-    <color name="status_healthy_bg">#E8F5EE</color>
-    <color name="status_warning_bg">#FFF8E1</color>
-    <color name="status_danger_bg">#FFEEF0</color>
-    <color name="status_healthy_text">#0D3D27</color>
-    <color name="status_warning_text">#8B6914</color>
-    <color name="status_danger_text">#C0392B</color>
+    <!-- Fondos -->
+    <color name="bg_deepest">#0A1F16</color>
+    <color name="bg_dark">#112B1E</color>
+    <color name="bg_mid">#163525</color>
+
+    <!-- Cards y superficies -->
+    <color name="surface_1">#1A3528</color>
+    <color name="surface_2">#1F3D2E</color>
+    <color name="surface_border">#2C5040</color>
+    <color name="surface_border_light">#3A6655</color>
+
+    <!-- Verde primario - botones principales -->
+    <color name="green_primary">#34C768</color>
+    <color name="green_primary_dark">#27A855</color>
+    <color name="green_glow">#4ADE80</color>
+
+    <!-- Texto -->
+    <color name="text_primary">#E8F5EE</color>
+    <color name="text_secondary">#9DC4AE</color>
+    <color name="text_hint">#6A9180</color>
+    <color name="text_accent">#34C768</color>
+
+    <!-- Ámbar — acento cálido para contrastes -->
+    <color name="amber">#F5A623</color>
+    <color name="amber_soft">#FFF3DC</color>
+
+    <!-- Estados -->
+    <color name="status_ok">#34C768</color>
+    <color name="status_warn">#F5A623</color>
+    <color name="status_err">#E05252</color>
+    <color name="status_ok_bg">#152E1E</color>
+    <color name="status_warn_bg">#2A2010</color>
+    <color name="status_err_bg">#2E1515</color>
+
+    <!-- Blanco puro para botón primario -->
+    <color name="white">#FFFFFF</color>
 </resources>

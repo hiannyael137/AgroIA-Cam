@@ -9,41 +9,45 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="22dp">
+        android:paddingStart="22dp"
+        android:paddingEnd="22dp"
+        android:paddingBottom="32dp">
 
+        <!-- Header -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Mis Plantas"
-            android:textColor="#F4FFF7"
+            android:textColor="@color/text_primary"
             android:textSize="34sp"
             android:textStyle="bold"
-            android:layout_marginTop="18dp"/>
+            android:layout_marginTop="40dp"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Monitorea y cuida tus plantas inteligentes."
-            android:textColor="#B7CBBE"
+            android:text="Monitorea y cuida tus plantas con IA"
+            android:textColor="@color/text_secondary"
             android:textSize="14sp"
             android:layout_marginTop="6dp"
-            android:layout_marginBottom="26dp"/>
+            android:layout_marginBottom="28dp"/>
 
+        <!-- Botón agregar -->
         <Button
             android:id="@+id/btnAddPlant"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:text="＋ Agregar Planta"
+            android:layout_height="56dp"
+            android:text="Agregar Planta"
             android:textAllCaps="false"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/white"
             android:textStyle="bold"
             android:textSize="16sp"
             android:background="@drawable/button_green"
             android:stateListAnimator="@null"
             android:layout_marginBottom="22dp"/>
 
+        <!-- Tarjeta planta ejemplo -->
         <include layout="@layout/item_result"/>
 
     </LinearLayout>
-
 </ScrollView>
