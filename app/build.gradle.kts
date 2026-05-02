@@ -1,12 +1,9 @@
 // ════════════════════════════════════════════════
-// ESTE ARCHIVO VA EN:
-//   Z:\agroicam\app\build.gradle.kts
-//   (dentro de /app, NO en la raíz)
+// REEMPLAZA: app/build.gradle.kts
 // ════════════════════════════════════════════════
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.compose)
 }
 
 android {
@@ -37,17 +34,14 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
 
-    kotlinOptions {
-        jvmTarget = "11"
-    }
+    kotlinOptions { jvmTarget = "11" }
 
     buildFeatures {
-        compose = true
+        viewBinding = true   // XML ViewBinding — NO Compose
     }
 
-    // Sin esto TFLite falla silenciosamente
     androidResources {
-        noCompress += "tflite"
+        noCompress += "tflite"   // TFLite no se comprime
     }
 
     packaging {
@@ -60,23 +54,20 @@ android {
 }
 
 dependencies {
-    // Compose — BOM controla todas las versiones
-    implementation(platform(libs.compose.bom))
-    implementation(libs.compose.ui)
-    implementation(libs.compose.ui.graphics)
-    implementation(libs.compose.ui.tooling.preview)
-    implementation(libs.compose.material3)
-    implementation(libs.compose.icons.extended)   // iconos extras (Eco, History, etc.)
-    debugImplementation(libs.compose.ui.tooling)
+    // UI base
+    implementation(libs.appcompat)
+    implementation(libs.material)
+    implementation(libs.constraintlayout)
 
-    // Navigation + Lifecycle + Activity
-    implementation(libs.activity.compose)
-    implementation(libs.lifecycle.runtime)
+    // Lifecycle + ViewModel
     implementation(libs.lifecycle.viewmodel)
-    implementation(libs.navigation.compose)
+    implementation(libs.lifecycle.livedata)
 
-    // Coroutines (para llamadas de red en background)
+    // Coroutines
     implementation(libs.coroutines.android)
+
+    // HTTP — Node-RED
+    implementation(libs.okhttp)
 
     // TFLite — Teachable Machine
     implementation(libs.tensorflow.lite)
