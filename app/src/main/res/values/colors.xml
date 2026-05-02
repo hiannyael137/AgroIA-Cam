@@ -34,6 +34,13 @@
     <color name="status_warn_bg">#2A2010</color>
     <color name="status_err_bg">#2E1515</color>
 
+    <!-- Pantallas blanco premium -->
+    <color name="bg_light">#F7FAF8</color>
+    <color name="text_dark">#1A2E22</color>
+    <color name="text_dark_secondary">#5A7A66</color>
+    <color name="text_dark_hint">#9BB5A4</color>
+    <color name="divider_light">#E8F0EB</color>
+
     <!-- Blanco puro para botón primario -->
     <color name="white">#FFFFFF</color>
 </resources>

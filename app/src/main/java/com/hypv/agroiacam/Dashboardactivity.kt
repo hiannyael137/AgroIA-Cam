@@ -4,6 +4,8 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.ImageDecoder
+import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.widget.Toast
@@ -20,34 +22,42 @@ class DashboardActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDashboardBinding
     private lateinit var classifier: Classifier
-    private var currentBitmap: Bitmap? = null
-    private var usuario = ""
+    private var usuario  = ""
+    private var plantName = ""
 
-    // ── Lanzador de cámara ────────────────────────────────────────────────────
+    // ── Lanzador cámara (ACTION_IMAGE_CAPTURE devuelve thumbnail en extras) ──
     private val cameraLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
         if (result.resultCode == RESULT_OK) {
+            @Suppress("DEPRECATION")
             val bitmap = result.data?.extras?.get("data") as? Bitmap
-            if (bitmap != null) {
-                currentBitmap = bitmap
-                analyzeImage(bitmap, metodo = "telefono")
-            }
+            bitmap?.let { analyzeImage(it, "telefono") }
         }
     }
 
-    // ── Lanzador de galería ───────────────────────────────────────────────────
+    // ── Lanzador galería ─────────────────────────────────────────────────────
     private val galleryLauncher = registerForActivityResult(
         ActivityResultContracts.GetContent()
     ) { uri ->
-        if (uri != null) {
-            val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, uri)
-            currentBitmap = bitmap
-            analyzeImage(bitmap, metodo = "galeria")
+        uri ?: return@registerForActivityResult
+        try {
+            val bitmap: Bitmap = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                val source = ImageDecoder.createSource(contentResolver, uri)
+                ImageDecoder.decodeBitmap(source) { decoder, _, _ ->
+                    decoder.allocator = ImageDecoder.ALLOCATOR_SOFTWARE
+                }
+            } else {
+                @Suppress("DEPRECATION")
+                MediaStore.Images.Media.getBitmap(contentResolver, uri)
+            }
+            analyzeImage(bitmap, "galeria")
+        } catch (e: Exception) {
+            Toast.makeText(this, "Error cargando imagen", Toast.LENGTH_SHORT).show()
         }
     }
 
-    // ── Permiso de cámara ─────────────────────────────────────────────────────
+    // ── Permiso cámara ───────────────────────────────────────────────────────
     private val permissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { granted ->
@@ -60,36 +70,34 @@ class DashboardActivity : AppCompatActivity() {
         binding = ActivityDashboardBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        usuario = getSharedPreferences("session", MODE_PRIVATE)
+        usuario   = getSharedPreferences("session", MODE_PRIVATE)
             .getString("usuario", "Usuario") ?: "Usuario"
+        plantName = intent.getStringExtra("plant_name") ?: "Mi Planta"
 
-        binding.tvGreeting.text = "Hola, $usuario 👋"
+        binding.tvGreeting.text  = "Hola, $usuario 👋"
+        binding.tvPlantName.text = plantName
 
         classifier = Classifier(this)
 
-        // Actualizar sensores al abrir
-        refreshSensors()
+        startSensorPolling()
 
         binding.btnPhoneAnalyze.setOnClickListener { checkCameraPermission() }
-
-        binding.btnEspAnalyze.setOnClickListener { fetchEspImage() }
-
+        binding.btnEspAnalyze.setOnClickListener   { fetchEspImage() }
         binding.btnCare.setOnClickListener {
             startActivity(Intent(this, PlantCareActivity::class.java))
         }
-
         binding.btnHistory.setOnClickListener {
             startActivity(Intent(this, HistoryActivity::class.java))
         }
     }
 
-    // ── Sensores ──────────────────────────────────────────────────────────────
-    private fun refreshSensors() {
+    // ── Polling de sensores cada 5 s ─────────────────────────────────────────
+    private fun startSensorPolling() {
         lifecycleScope.launch {
             while (true) {
                 val raw = ApiHelper.getSensors()
                 runOnUiThread { updateSensorUI(raw) }
-                delay(5_000) // actualizar cada 5 segundos
+                delay(5_000)
             }
         }
     }
@@ -100,12 +108,10 @@ class DashboardActivity : AppCompatActivity() {
             binding.tvHumidity.text = "${json.optInt("humedad", 0)}%"
             binding.tvLight.text    = "${json.optInt("luz", 0)} lx"
             binding.tvSoil.text     = "${json.optInt("suelo", 0)}%"
-        } catch (e: Exception) {
-            // Sin datos — dejar valores anteriores
-        }
+        } catch (_: Exception) { /* sin datos — mantener último valor */ }
     }
 
-    // ── Cámara ────────────────────────────────────────────────────────────────
+    // ── Cámara ───────────────────────────────────────────────────────────────
     private fun checkCameraPermission() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
             == PackageManager.PERMISSION_GRANTED) {
@@ -120,18 +126,17 @@ class DashboardActivity : AppCompatActivity() {
         cameraLauncher.launch(intent)
     }
 
-    // ── Analizar imagen con TFLite ────────────────────────────────────────────
+    // ── Análisis TFLite ──────────────────────────────────────────────────────
     private fun analyzeImage(bitmap: Bitmap, metodo: String) {
         binding.btnPhoneAnalyze.isEnabled = false
-        binding.btnPhoneAnalyze.text = "Analizando..."
+        binding.btnPhoneAnalyze.text      = "Analizando..."
 
         lifecycleScope.launch {
             val result = classifier.classify(bitmap)
 
-            // Guardar en BD via Node-RED
             ApiHelper.saveResult(
                 usuario     = usuario,
-                planta      = binding.tvPlantName.text.toString(),
+                planta      = plantName,
                 diagnostico = result.label,
                 precision   = result.percent,
                 metodo      = metodo
@@ -139,32 +144,31 @@ class DashboardActivity : AppCompatActivity() {
 
             runOnUiThread {
                 binding.btnPhoneAnalyze.isEnabled = true
-                binding.btnPhoneAnalyze.text = "📷 Analizar con Teléfono"
+                binding.btnPhoneAnalyze.text      = "📷  Analizar con Cámara"
+                binding.tvIaStatus.text           = result.label
+                binding.tvStatusBadge.text        = if (result.isHealthy) "Saludable" else "⚠ Revisar"
 
-                // Actualizar card de estado
-                binding.tvIaStatus.text = result.label
-                binding.tvStatusBadge.text = if (result.isHealthy) "OK" else "⚠"
-
-                val msg = "${result.label} — ${result.percent}% de confianza"
-                Toast.makeText(this@DashboardActivity, msg, Toast.LENGTH_LONG).show()
+                Toast.makeText(
+                    this@DashboardActivity,
+                    "${result.label} — ${result.percent}%",
+                    Toast.LENGTH_LONG
+                ).show()
             }
         }
     }
 
-    // ── Imagen desde ESP32-CAM via Node-RED ───────────────────────────────────
+    // ── ESP32-CAM ────────────────────────────────────────────────────────────
     private fun fetchEspImage() {
         binding.btnEspAnalyze.isEnabled = false
-        binding.btnEspAnalyze.text = "Conectando ESP32..."
+        binding.btnEspAnalyze.text      = "Conectando ESP32..."
 
         lifecycleScope.launch {
-            // Node-RED devuelve los sensores; la foto la analiza al recibirla
-            // Por ahora simula el flujo hasta tener el endpoint real
             val raw = ApiHelper.getSensors()
             updateSensorUI(raw)
 
             runOnUiThread {
                 binding.btnEspAnalyze.isEnabled = true
-                binding.btnEspAnalyze.text = "📡 Foto con ESP32-CAM"
+                binding.btnEspAnalyze.text      = "📡  Foto con ESP32-CAM"
                 Toast.makeText(
                     this@DashboardActivity,
                     "Configura el endpoint /esp_photo en Node-RED",

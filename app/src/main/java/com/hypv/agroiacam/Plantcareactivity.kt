@@ -13,7 +13,6 @@ class PlantCareActivity : AppCompatActivity() {
     private lateinit var binding: ActivityPlantCareBinding
     private var usuario = ""
 
-    // Tus 5 plantas de casa
     private val plantas = listOf(
         "Pothos dorado",
         "Monstera deliciosa",
@@ -23,12 +22,12 @@ class PlantCareActivity : AppCompatActivity() {
     )
 
     private val actividades = listOf(
-        "Riego",
-        "Fertilización",
-        "Poda",
-        "Trasplante",
-        "Limpieza de hojas",
-        "Revisión general"
+        "💧 Riego",
+        "🌿 Fertilización",
+        "✂️ Poda",
+        "🪴 Trasplante",
+        "🧼 Limpieza de hojas",
+        "🔍 Revisión general"
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,10 +45,14 @@ class PlantCareActivity : AppCompatActivity() {
 
     private fun setupSpinners() {
         binding.spinnerPlant.adapter = ArrayAdapter(
-            this, android.R.layout.simple_spinner_dropdown_item, plantas
+            this,
+            android.R.layout.simple_spinner_dropdown_item,
+            plantas
         )
         binding.spinnerActivity.adapter = ArrayAdapter(
-            this, android.R.layout.simple_spinner_dropdown_item, actividades
+            this,
+            android.R.layout.simple_spinner_dropdown_item,
+            actividades
         )
     }
 
@@ -58,20 +61,20 @@ class PlantCareActivity : AppCompatActivity() {
         val actividad = binding.spinnerActivity.selectedItem?.toString() ?: ""
         val notas     = binding.etNotes.text.toString().trim()
 
-        if (planta.isEmpty() || actividad.isEmpty()) {
-            Toast.makeText(this, "Selecciona planta y actividad", Toast.LENGTH_SHORT).show()
+        if (planta.isEmpty()) {
+            Toast.makeText(this, "Selecciona una planta", Toast.LENGTH_SHORT).show()
             return
         }
 
         binding.btnSaveActivity.isEnabled = false
-        binding.btnSaveActivity.text = "Guardando..."
+        binding.btnSaveActivity.text      = "Guardando..."
 
         lifecycleScope.launch {
             val result = ApiHelper.saveCareActivity(usuario, planta, actividad, notas)
 
             runOnUiThread {
                 binding.btnSaveActivity.isEnabled = true
-                binding.btnSaveActivity.text = "Guardar Registro"
+                binding.btnSaveActivity.text      = "Guardar Registro 🌱"
 
                 if (result.success) {
                     Toast.makeText(this@PlantCareActivity, "✅ Registro guardado", Toast.LENGTH_SHORT).show()

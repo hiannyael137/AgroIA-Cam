@@ -18,6 +18,13 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // Si ya hay sesión activa, ir directo a Mis Plantas
+        val prefs = getSharedPreferences("session", MODE_PRIVATE)
+        if (prefs.getString("usuario", null) != null) {
+            goToMain()
+            return
+        }
+
         binding.btnLogin.setOnClickListener { doLogin() }
 
         binding.btnRegister.setOnClickListener {
@@ -30,7 +37,7 @@ class LoginActivity : AppCompatActivity() {
         val password = binding.etPassword.text.toString().trim()
 
         if (usuario.isEmpty() || password.isEmpty()) {
-            Toast.makeText(this, "Completa todos los campos", Toast.LENGTH_SHORT).show()
+            showError("Completa todos los campos")
             return
         }
 
@@ -42,23 +49,31 @@ class LoginActivity : AppCompatActivity() {
             runOnUiThread {
                 setLoading(false)
                 if (result.success) {
-                    // Guardar sesión
                     getSharedPreferences("session", MODE_PRIVATE)
                         .edit()
                         .putString("usuario", usuario)
                         .apply()
-
-                    startActivity(Intent(this@LoginActivity, DashboardActivity::class.java))
-                    finish()
+                    goToMain()
                 } else {
-                    Toast.makeText(this@LoginActivity, result.message, Toast.LENGTH_LONG).show()
+                    showError(result.message)
                 }
             }
         }
     }
 
+    private fun showError(msg: String) {
+        binding.tvError.text       = msg
+        binding.tvError.visibility = View.VISIBLE
+    }
+
     private fun setLoading(loading: Boolean) {
         binding.btnLogin.isEnabled = !loading
         binding.btnLogin.text = if (loading) "Entrando..." else "Iniciar Sesión"
+        binding.tvError.visibility = View.GONE
+    }
+
+    private fun goToMain() {
+        startActivity(Intent(this, MainActivity::class.java))
+        finish()
     }
 }

@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="32" />
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
 
     <application
         android:allowBackup="true"
@@ -27,14 +28,22 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".RegisterActivity"
-            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:name=".RegisterActivity"
+            android:windowSoftInputMode="adjustResize" />
 
+        <!-- "Mis Plantas" — pantalla principal post-login -->
+        <activity android:name=".MainActivity" />
+
+        <!-- Detalle de una planta + análisis IA -->
         <activity android:name=".DashboardActivity" />
 
-        <activity android:name=".PlantCareActivity"
-            android:windowSoftInputMode="adjustResize"/>
+        <!-- Registrar cuidados -->
+        <activity
+            android:name=".PlantCareActivity"
+            android:windowSoftInputMode="adjustResize" />
 
+        <!-- Historial -->
         <activity android:name=".HistoryActivity" />
 
     </application>
