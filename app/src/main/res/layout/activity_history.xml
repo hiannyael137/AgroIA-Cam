@@ -57,6 +57,7 @@
         android:clipToPadding="false">
 
         <LinearLayout
+            android:id="@+id/rvHistory"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
