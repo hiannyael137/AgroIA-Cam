@@ -1,81 +1,88 @@
-// ════════════════════════════════════════════════
-// REEMPLAZA: app/build.gradle.kts
-// ════════════════════════════════════════════════
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
 }
 
 android {
-    namespace  = "com.hypv.agroiacam"
+
+    namespace = "com.hypv.agroiacam"
+
     compileSdk = 35
 
     defaultConfig {
-        applicationId             = "com.hypv.agroiacam"
-        minSdk                    = 24
-        targetSdk                 = 35
-        versionCode               = 1
-        versionName               = "1.0"
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        applicationId = "com.hypv.agroiacam"
+
+        minSdk = 26
+        targetSdk = 35
+
+        versionCode = 1
+        versionName = "1.0"
+
+        testInstrumentationRunner =
+            "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
+
         release {
+
             isMinifyEnabled = false
+
             proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
+                getDefaultProguardFile(
+                    "proguard-android-optimize.txt"
+                ),
                 "proguard-rules.pro"
             )
         }
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+
+        sourceCompatibility =
+            JavaVersion.VERSION_11
+
+        targetCompatibility =
+            JavaVersion.VERSION_11
     }
 
-    kotlinOptions { jvmTarget = "11" }
+    kotlinOptions {
+
+        jvmTarget = "11"
+    }
 
     buildFeatures {
-        viewBinding = true   // XML ViewBinding — NO Compose
-    }
 
-    androidResources {
-        noCompress += "tflite"   // TFLite no se comprime
-    }
-
-    packaging {
-        resources {
-            excludes += "META-INF/DEPENDENCIES"
-            excludes += "META-INF/LICENSE"
-            excludes += "META-INF/NOTICE"
-        }
+        viewBinding = true
     }
 }
 
 dependencies {
-    // UI base
-    implementation(libs.appcompat)
-    implementation(libs.material)
-    implementation(libs.constraintlayout)
-    implementation(libs.recyclerview)
 
-    // Lifecycle + ViewModel
-    implementation(libs.lifecycle.viewmodel)
-    implementation(libs.lifecycle.livedata)
+    implementation("androidx.core:core-ktx:1.13.1")
 
-    // Coroutines
-    implementation(libs.coroutines.android)
+    implementation("androidx.appcompat:appcompat:1.7.0")
 
-    // HTTP — Node-RED
-    implementation(libs.okhttp)
+    implementation("com.google.android.material:material:1.12.0")
 
-    // TFLite — Teachable Machine
-    implementation(libs.tensorflow.lite)
-    implementation(libs.tensorflow.lite.support)
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
 
-    // Tests
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.ext.junit)
-    androidTestImplementation(libs.espresso.core)
+    implementation("androidx.recyclerview:recyclerview:1.3.2")
+
+    // OKHTTP
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
+
+    // JSON
+    implementation("org.json:json:20240303")
+
+    testImplementation("junit:junit:4.13.2")
+
+    androidTestImplementation(
+        "androidx.test.ext:junit:1.2.1"
+    )
+
+    androidTestImplementation(
+        "androidx.test.espresso:espresso-core:3.6.1"
+    )
 }

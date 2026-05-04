@@ -16,84 +16,71 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="🪴 Registrar Actividad"
-            android:textColor="@color/text_primary"
+            android:text="🌱 Registrar Planta"
             android:textSize="30sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:textColor="@color/text_primary" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Lleva el control de cuidados y revisiones de tus plantas."
+            android:text="Selecciona el tipo de planta y ponle un nombre personalizado."
             android:textColor="@color/text_secondary"
             android:textSize="14sp"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="28dp"/>
+            android:layout_marginBottom="28dp" />
 
-        <!-- PLANTA -->
+        <!-- TIPO DE PLANTA -->
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Selecciona una planta"
+            android:text="Tipo de planta"
             android:textColor="@color/text_secondary"
             android:textSize="14sp"
-            android:layout_marginBottom="8dp"/>
+            android:layout_marginBottom="8dp" />
+
+        <!-- NOMBRE -->
 
         <Spinner
-            android:id="@+id/spinnerPlant"
+            android:id="@+id/spinnerPlantType"
             android:layout_width="match_parent"
             android:layout_height="58dp"
-            android:background="@drawable/input_bg"/>
+            android:background="@drawable/input_bg" />
 
-        <!-- ACTIVIDAD -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Tipo de actividad"
+            android:text="Nombre personalizado"
             android:textColor="@color/text_secondary"
             android:textSize="14sp"
             android:layout_marginTop="22dp"
-            android:layout_marginBottom="8dp"/>
+            android:layout_marginBottom="8dp" />
 
-        <Spinner
-            android:id="@+id/spinnerActivity"
-            android:layout_width="match_parent"
-            android:layout_height="58dp"
-            android:background="@drawable/input_bg"/>
-
-        <!-- NOTAS -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Notas adicionales"
-            android:textColor="@color/text_secondary"
-            android:textSize="14sp"
-            android:layout_marginTop="22dp"
-            android:layout_marginBottom="8dp"/>
+        <!-- BOTON -->
 
         <EditText
-            android:id="@+id/etNotes"
+            android:id="@+id/etPlantName"
             android:layout_width="match_parent"
-            android:layout_height="120dp"
+            android:layout_height="58dp"
             android:background="@drawable/input_bg"
-            android:gravity="top"
-            android:hint="Ejemplo: la tierra estaba muy seca..."
+            android:hint=""
             android:padding="16dp"
             android:textColor="@color/text_primary"
-            android:textColorHint="@color/text_hint"/>
+            android:textColorHint="@color/text_hint" />
 
         <Button
-            android:id="@+id/btnSaveActivity"
+            android:id="@+id/btnSavePlant"
             android:layout_width="match_parent"
             android:layout_height="58dp"
             android:layout_marginTop="30dp"
-            android:text="Guardar Actividad"
+            android:text="Guardar Planta"
             android:textAllCaps="false"
             android:textStyle="bold"
             android:textSize="16sp"
             android:textColor="@android:color/white"
             android:background="@drawable/button_green"
-            android:stateListAnimator="@null"/>
+            android:stateListAnimator="@null" />
 
     </LinearLayout>
 
