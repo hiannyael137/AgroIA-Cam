@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
-        android:maxSdkVersion="32" />
-    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
-    <uses-feature android:name="android.hardware.camera" android:required="false" />
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission
+        android:name="android.permission.INTERNET" />
+
+    <uses-permission
+        android:name="android.permission.CAMERA" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
 
     <application
         android:allowBackup="true"
@@ -17,34 +22,46 @@
         android:theme="@style/Theme.AgroiaCam"
         android:usesCleartextTraffic="true">
 
-        <!-- Launcher: Login -->
+        <!-- LOGIN -->
         <activity
             android:name=".LoginActivity"
-            android:exported="true"
-            android:windowSoftInputMode="adjustResize">
+            android:exported="true">
+
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+
+                <action
+                    android:name="android.intent.action.MAIN" />
+
+                <category
+                    android:name="android.intent.category.LAUNCHER" />
+
             </intent-filter>
+
         </activity>
 
+        <!-- REGISTER -->
         <activity
-            android:name=".RegisterActivity"
-            android:windowSoftInputMode="adjustResize" />
+            android:name=".RegisterActivity" />
 
-        <!-- "Mis Plantas" — pantalla principal post-login -->
-        <activity android:name=".MainActivity" />
-
-        <!-- Detalle de una planta + análisis IA -->
-        <activity android:name=".DashboardActivity" />
-
-        <!-- Registrar cuidados -->
+        <!-- MAIN -->
         <activity
-            android:name=".PlantCareActivity"
-            android:windowSoftInputMode="adjustResize" />
+            android:name=".MainActivity" />
 
-        <!-- Historial -->
-        <activity android:name=".HistoryActivity" />
+        <!-- DASHBOARD -->
+        <activity
+            android:name=".DashboardActivity" />
+
+        <!-- ACTIVIDADES -->
+        <activity
+            android:name=".PlantCareActivity" />
+
+        <!-- HISTORIAL -->
+        <activity
+            android:name=".HistoryActivity" />
+
+        <!-- AGREGAR PLANTA -->
+        <activity
+            android:name=".AddPlantActivity" />
 
     </application>
 
