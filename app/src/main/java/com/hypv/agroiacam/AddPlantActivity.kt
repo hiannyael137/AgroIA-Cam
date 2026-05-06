@@ -36,11 +36,11 @@ class AddPlantActivity : AppCompatActivity() {
     private fun setupSpinner() {
 
         val plants = listOf(
-            "🌹 Rosa",
-            "🌵 Sábila",
-            "🌿 Menta",
-            "🌸 Orquídea",
-            "🪴 Helecho"
+            " Rosa",
+            "Sábila",
+            "Menta",
+            " Orquídea",
+            "Helecho"
         )
 
         val adapter = ArrayAdapter(
