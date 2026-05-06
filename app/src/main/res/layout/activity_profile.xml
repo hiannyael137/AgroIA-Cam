@@ -21,70 +21,99 @@
             android:background="@drawable/button_dark"
             android:src="@drawable/ic_arrow_back"
             android:contentDescription="Regresar"
-            android:padding="10dp" />
+            android:padding="10dp"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="🌱 Registrar Planta"
+            android:text="👤 Mi Perfil"
             android:textSize="30sp"
             android:textStyle="bold"
-            android:textColor="@color/text_primary" />
+            android:textColor="@color/text_primary"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Selecciona el tipo de planta y ponle un nombre personalizado."
+            android:text="Edita tu información personal"
             android:textColor="@color/text_secondary"
             android:textSize="14sp"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="28dp" />
+            android:layout_marginBottom="32dp"/>
 
+        <!-- NOMBRE -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Tipo de planta"
+            android:text="Nombre"
             android:textColor="@color/text_secondary"
             android:textSize="14sp"
-            android:layout_marginBottom="8dp" />
+            android:layout_marginBottom="8dp"/>
 
-        <Spinner
-            android:id="@+id/spinnerPlantType"
+        <EditText
+            android:id="@+id/etNombre"
             android:layout_width="match_parent"
-            android:layout_height="58dp"
-            android:background="@drawable/input_bg" />
+            android:layout_height="56dp"
+            android:background="@drawable/input_bg"
+            android:padding="16dp"
+            android:textColor="@color/text_primary"
+            android:textColorHint="@color/text_hint"
+            android:hint="Tu nombre"/>
 
+        <!-- CONTRASEÑA ACTUAL -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Nombre personalizado"
+            android:text="Contraseña actual"
             android:textColor="@color/text_secondary"
             android:textSize="14sp"
             android:layout_marginTop="22dp"
-            android:layout_marginBottom="8dp" />
+            android:layout_marginBottom="8dp"/>
 
         <EditText
-            android:id="@+id/etPlantName"
+            android:id="@+id/etPasswordActual"
             android:layout_width="match_parent"
-            android:layout_height="58dp"
+            android:layout_height="56dp"
             android:background="@drawable/input_bg"
-            android:hint=""
             android:padding="16dp"
+            android:inputType="textPassword"
             android:textColor="@color/text_primary"
-            android:textColorHint="@color/text_hint" />
+            android:textColorHint="@color/text_hint"
+            android:hint="Ingresa tu contraseña actual"/>
 
+        <!-- NUEVA CONTRASEÑA -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nueva contraseña (opcional)"
+            android:textColor="@color/text_secondary"
+            android:textSize="14sp"
+            android:layout_marginTop="22dp"
+            android:layout_marginBottom="8dp"/>
+
+        <EditText
+            android:id="@+id/etPasswordNueva"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="@drawable/input_bg"
+            android:padding="16dp"
+            android:inputType="textPassword"
+            android:textColor="@color/text_primary"
+            android:textColorHint="@color/text_hint"
+            android:hint="Dejar vacío para no cambiar"/>
+
+        <!-- BOTON GUARDAR -->
         <Button
-            android:id="@+id/btnSavePlant"
+            android:id="@+id/btnGuardar"
             android:layout_width="match_parent"
             android:layout_height="58dp"
-            android:layout_marginTop="30dp"
-            android:text="Guardar Planta"
+            android:layout_marginTop="32dp"
+            android:text="Guardar cambios"
             android:textAllCaps="false"
             android:textStyle="bold"
             android:textSize="16sp"
             android:textColor="@android:color/white"
             android:background="@drawable/button_green"
-            android:stateListAnimator="@null" />
+            android:stateListAnimator="@null"/>
 
     </LinearLayout>
 

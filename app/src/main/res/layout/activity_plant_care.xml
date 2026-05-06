@@ -13,6 +13,16 @@
         android:orientation="vertical"
         android:padding="24dp">
 
+        <ImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/button_dark"
+            android:src="@drawable/ic_arrow_back"
+            android:contentDescription="Regresar"
+            android:padding="10dp" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -30,7 +40,6 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="28dp"/>
 
-        <!-- PLANTA -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -45,7 +54,6 @@
             android:layout_height="58dp"
             android:background="@drawable/input_bg"/>
 
-        <!-- ACTIVIDAD -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -61,7 +69,6 @@
             android:layout_height="58dp"
             android:background="@drawable/input_bg"/>
 
-        <!-- NOTAS -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

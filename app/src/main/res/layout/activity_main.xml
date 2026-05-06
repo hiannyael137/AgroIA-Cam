@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -15,21 +13,59 @@
         android:orientation="vertical"
         android:padding="24dp">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <!-- TITULO + BOTONES -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="🌿 Mis Plantas"
-            android:textSize="32sp"
-            android:textStyle="bold"
-            android:textColor="@color/text_primary"/>
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Monitorea el estado de tus plantas"
-            android:textSize="15sp"
-            android:textColor="@color/text_secondary"
-            android:layout_marginTop="6dp"/>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="🌿 Mis Plantas"
+                    android:textSize="32sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/text_primary"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Monitorea el estado de tus plantas"
+                    android:textSize="15sp"
+                    android:textColor="@color/text_secondary"
+                    android:layout_marginTop="6dp"/>
+
+            </LinearLayout>
+
+            <!-- BOTON PERFIL -->
+            <ImageButton
+                android:id="@+id/btnProfile"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:background="@drawable/button_dark"
+                android:src="@drawable/ic_profile"
+                android:contentDescription="Perfil"
+                android:padding="10dp"
+                android:layout_marginEnd="10dp"/>
+
+            <!-- BOTON CERRAR SESION -->
+            <ImageButton
+                android:id="@+id/btnLogout"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:background="@drawable/button_dark"
+                android:src="@drawable/ic_logout"
+                android:contentDescription="Cerrar sesión"
+                android:padding="10dp"/>
+
+        </LinearLayout>
 
         <Button
             android:id="@+id/btnAddPlant"
@@ -43,6 +79,7 @@
             android:textSize="16sp"
             android:background="@drawable/button_green"
             android:stateListAnimator="@null"/>
+
     </LinearLayout>
 
     <!-- LISTA -->
