@@ -21,7 +21,7 @@
             android:background="@drawable/button_dark"
             android:src="@drawable/ic_arrow_back"
             android:contentDescription="Regresar"
-            android:padding="10dp" />
+            android:padding="10dp"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -29,7 +29,7 @@
             android:text="🌱 Registrar Planta"
             android:textSize="30sp"
             android:textStyle="bold"
-            android:textColor="@color/text_primary" />
+            android:textColor="@color/text_primary"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -38,22 +38,79 @@
             android:textColor="@color/text_secondary"
             android:textSize="14sp"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="28dp" />
+            android:layout_marginBottom="28dp"/>
 
+        <!-- FOTO DE LA PLANTA -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Foto de la planta"
+            android:textColor="@color/text_secondary"
+            android:textSize="14sp"
+            android:layout_marginBottom="12dp"/>
+
+        <ImageView
+            android:id="@+id/imgPreview"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/ic_plant_placeholder"
+            android:background="@drawable/circle_bg"
+            android:scaleType="centerCrop"
+            android:clipToOutline="true"/>
+
+        <!-- BOTONES FOTO -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="24dp">
+
+            <Button
+                android:id="@+id/btnCamera"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"
+                android:text="📷 Cámara"
+                android:textAllCaps="false"
+                android:textColor="@color/text_primary"
+                android:textSize="14sp"
+                android:background="@drawable/button_dark"
+                android:stateListAnimator="@null"/>
+
+            <Button
+                android:id="@+id/btnGallery"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                android:text="🖼️ Galería"
+                android:textAllCaps="false"
+                android:textColor="@color/text_primary"
+                android:textSize="14sp"
+                android:background="@drawable/button_dark"
+                android:stateListAnimator="@null"/>
+
+        </LinearLayout>
+
+        <!-- TIPO DE PLANTA -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Tipo de planta"
             android:textColor="@color/text_secondary"
             android:textSize="14sp"
-            android:layout_marginBottom="8dp" />
+            android:layout_marginBottom="8dp"/>
 
         <Spinner
             android:id="@+id/spinnerPlantType"
             android:layout_width="match_parent"
             android:layout_height="58dp"
-            android:background="@drawable/input_bg" />
+            android:background="@drawable/input_bg"/>
 
+        <!-- NOMBRE -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -61,17 +118,16 @@
             android:textColor="@color/text_secondary"
             android:textSize="14sp"
             android:layout_marginTop="22dp"
-            android:layout_marginBottom="8dp" />
+            android:layout_marginBottom="8dp"/>
 
         <EditText
             android:id="@+id/etPlantName"
             android:layout_width="match_parent"
             android:layout_height="58dp"
             android:background="@drawable/input_bg"
-            android:hint=""
             android:padding="16dp"
             android:textColor="@color/text_primary"
-            android:textColorHint="@color/text_hint" />
+            android:textColorHint="@color/text_hint"/>
 
         <Button
             android:id="@+id/btnSavePlant"
@@ -84,7 +140,7 @@
             android:textSize="16sp"
             android:textColor="@android:color/white"
             android:background="@drawable/button_green"
-            android:stateListAnimator="@null" />
+            android:stateListAnimator="@null"/>
 
     </LinearLayout>
 
