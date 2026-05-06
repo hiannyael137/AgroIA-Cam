@@ -43,6 +43,7 @@
         <activity
             android:name=".RegisterActivity" />
 
+        <activity android:name=".ProfileActivity" />
         <!-- MAIN -->
         <activity
             android:name=".MainActivity" />

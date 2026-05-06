@@ -19,12 +19,15 @@ class AddPlantActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContentView(R.layout.activity_add_plant)
 
         spinnerPlantType = findViewById(R.id.spinnerPlantType)
         etPlantName = findViewById(R.id.etPlantName)
         btnSavePlant = findViewById(R.id.btnSavePlant)
+
+        findViewById<ImageButton>(R.id.btnBack).setOnClickListener {
+            finish()
+        }
 
         setupSpinner()
 
@@ -34,7 +37,6 @@ class AddPlantActivity : AppCompatActivity() {
     }
 
     private fun setupSpinner() {
-
         val plants = listOf(
             "🌹 Rosa",
             "🌵 Sábila",
@@ -42,71 +44,50 @@ class AddPlantActivity : AppCompatActivity() {
             "🌸 Orquídea",
             "🪴 Helecho"
         )
-
-        val adapter = ArrayAdapter(
-            this,
-            R.layout.spinner_item,
-            plants
-        )
-
+        val adapter = ArrayAdapter(this, R.layout.spinner_item, plants)
         adapter.setDropDownViewResource(R.layout.spinner_item)
         spinnerPlantType.adapter = adapter
     }
 
     private fun savePlant() {
-
         val plantType = spinnerPlantType.selectedItem.toString()
         val customName = etPlantName.text.toString().trim()
 
         if (customName.isEmpty()) {
-            Toast.makeText(
-                this,
-                "Ponle un nombre a tu planta",
-                Toast.LENGTH_SHORT
-            ).show()
+            Toast.makeText(this, "Ponle un nombre a tu planta", Toast.LENGTH_SHORT).show()
             return
         }
 
-        val json = JSONObject()
+        // ✅ Obtener usuario_id guardado en el login
+        val prefs = getSharedPreferences("agroia", MODE_PRIVATE)
+        val usuarioId = prefs.getInt("usuario_id", 0)
 
+        val json = JSONObject()
+        json.put("usuario_id", usuarioId)
         json.put("tipo_planta", plantType)
         json.put("nombre_personalizado", customName)
         json.put("estado", "Saludable")
         json.put("humedad", "0%")
-        json.put("ultima_actividad", "Sin registro")
+        json.put("ultimo_riego", "Sin riego")
 
-        val body = json.toString().toRequestBody(
-            "application/json".toMediaType()
-        )
-
+        val body = json.toString().toRequestBody("application/json".toMediaType())
         val request = Request.Builder()
             .url("${ApiHelper.BASE_URL}/addPlant")
             .post(body)
             .build()
 
-        client.newCall(request)
-            .enqueue(object : Callback {
-
-                override fun onFailure(call: Call, e: IOException) {
-                    runOnUiThread {
-                        Toast.makeText(
-                            this@AddPlantActivity,
-                            "Error conectando con Node-RED",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                runOnUiThread {
+                    Toast.makeText(this@AddPlantActivity, "Error conectando con Node-RED", Toast.LENGTH_SHORT).show()
                 }
-
-                override fun onResponse(call: Call, response: Response) {
-                    runOnUiThread {
-                        Toast.makeText(
-                            this@AddPlantActivity,
-                            "Planta guardada correctamente",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        finish()
-                    }
+            }
+            override fun onResponse(call: Call, response: Response) {
+                runOnUiThread {
+                    Toast.makeText(this@AddPlantActivity, "Planta guardada correctamente", Toast.LENGTH_SHORT).show()
+                    finish()
                 }
-            })
+            }
+        })
     }
 }
