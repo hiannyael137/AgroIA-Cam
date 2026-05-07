@@ -83,8 +83,17 @@ dependencies {
 
     // TensorFlow Lite — Teachable Machine
     implementation("org.tensorflow:tensorflow-lite:2.14.0")
+    implementation("org.tensorflow:tensorflow-lite-support:0.4.4")
 
     testImplementation("junit:junit:4.13.2")
+
+
+    implementation("com.github.bumptech.glide:glide:4.16.0")
+
+    implementation("com.github.bumptech.glide:glide:4.16.0")
+    annotationProcessor("com.github.bumptech.glide:compiler:4.16.0")
+
+
 
     androidTestImplementation(
         "androidx.test.ext:junit:1.2.1"

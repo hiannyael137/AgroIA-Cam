@@ -1,11 +1,21 @@
+
 package com.hypv.agroiacam
 
 data class Plant(
-    val name: String,
-    val status: String,
-    val humidity: String,
-    val lastWatering: String,
-    val salud: Int = 100,
-    val imagenUrl: String = "",
-    val id: Int = 0
+
+    val id: Int,
+
+    val nombre_personalizado: String,
+
+    val tipo_planta: String,
+
+    val estado: String,
+
+    val humedad: String,
+
+    val ultimo_riego: String,
+
+    val salud: Int,
+
+    val imagen_url: String
 )

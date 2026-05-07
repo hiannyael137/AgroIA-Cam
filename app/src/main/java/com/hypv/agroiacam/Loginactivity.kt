@@ -25,91 +25,240 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        etUsername = findViewById(R.id.etUsername)
-        etPassword = findViewById(R.id.etPassword)
-        btnLogin = findViewById(R.id.btnLogin)
-        btnRegister = findViewById(R.id.btnRegister)
+        // =========================
+        // VERIFICAR SESIÓN
+        // =========================
+        val prefs = getSharedPreferences(
+            "agroia",
+            MODE_PRIVATE
+        )
 
-        btnRegister.setOnClickListener {
-            startActivity(Intent(this, RegisterActivity::class.java))
+        val usuarioId =
+            prefs.getInt("usuario_id", -1)
+
+        if (usuarioId != -1) {
+
+            startActivity(
+                Intent(
+                    this,
+                    MainActivity::class.java
+                )
+            )
+
+            finish()
+
+            return
         }
 
+        etUsername =
+            findViewById(R.id.etUsername)
+
+        etPassword =
+            findViewById(R.id.etPassword)
+
+        btnLogin =
+            findViewById(R.id.btnLogin)
+
+        btnRegister =
+            findViewById(R.id.btnRegister)
+
+        // =========================
+        // IR A REGISTER
+        // =========================
+        btnRegister.setOnClickListener {
+
+            startActivity(
+                Intent(
+                    this,
+                    RegisterActivity::class.java
+                )
+            )
+        }
+
+        // =========================
+        // LOGIN
+        // =========================
         btnLogin.setOnClickListener {
+
             loginUser()
         }
     }
 
+    // =========================
+    // LOGIN USER
+    // =========================
     private fun loginUser() {
 
-        val email = etUsername.text.toString().trim()
-        val password = etPassword.text.toString().trim()
+        val email =
+            etUsername.text.toString().trim()
 
-        if (email.isEmpty() || password.isEmpty()) {
-            Toast.makeText(this, "Completa todos los campos", Toast.LENGTH_SHORT).show()
+        val password =
+            etPassword.text.toString().trim()
+
+        // =========================
+        // VALIDAR CAMPOS
+        // =========================
+        if (
+            email.isEmpty() ||
+            password.isEmpty()
+        ) {
+
+            Toast.makeText(
+                this,
+                "Completa todos los campos",
+                Toast.LENGTH_SHORT
+            ).show()
+
             return
         }
 
+        // =========================
+        // VALIDAR GMAIL
+        // =========================
+        if (!email.endsWith("@gmail.com")) {
+
+            Toast.makeText(
+                this,
+                "Ingresa un correo Gmail válido",
+                Toast.LENGTH_SHORT
+            ).show()
+
+            return
+        }
+
+        // =========================
+        // DESACTIVAR BOTÓN
+        // =========================
+        btnLogin.isEnabled = false
+        btnLogin.text = "Ingresando..."
+
         val json = JSONObject()
+
         json.put("email", email)
         json.put("password", password)
 
-        val body = json.toString().toRequestBody("application/json".toMediaType())
+        val body = json.toString()
+            .toRequestBody(
+                "application/json".toMediaType()
+            )
+
         val request = Request.Builder()
             .url("${ApiHelper.BASE_URL}/login")
             .post(body)
             .build()
 
-        client.newCall(request).enqueue(object : Callback {
+        client.newCall(request)
+            .enqueue(object : Callback {
 
-            override fun onFailure(call: Call, e: IOException) {
-                runOnUiThread {
-                    Toast.makeText(
-                        this@LoginActivity,
-                        "Error conectando con Node-RED",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            }
+                override fun onFailure(
+                    call: Call,
+                    e: IOException
+                ) {
 
-            override fun onResponse(call: Call, response: Response) {
-                val result = response.body?.string()
+                    runOnUiThread {
 
-                runOnUiThread {
-                    try {
-                        val jsonResponse = JSONObject(result!!)
+                        btnLogin.isEnabled = true
+                        btnLogin.text = "Iniciar sesión"
 
-                        if (jsonResponse.getBoolean("success")) {
-
-                            // ✅ Guardar usuario_id y nombre en SharedPreferences
-                            val usuarioId = jsonResponse.getInt("usuario_id")
-                            val nombre = jsonResponse.getString("nombre")
-
-                            val prefs = getSharedPreferences("agroia", MODE_PRIVATE)
-                            prefs.edit()
-                                .putInt("usuario_id", usuarioId)
-                                .putString("nombre", nombre)
-                                .apply()
-
-                            startActivity(Intent(this@LoginActivity, MainActivity::class.java))
-                            finish()
-
-                        } else {
-                            Toast.makeText(
-                                this@LoginActivity,
-                                "Correo o contraseña incorrectos",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
-
-                    } catch (e: Exception) {
                         Toast.makeText(
                             this@LoginActivity,
-                            "Error al procesar respuesta",
+                            "Error conectando con Node-RED",
                             Toast.LENGTH_SHORT
                         ).show()
                     }
                 }
-            }
-        })
+
+                override fun onResponse(
+                    call: Call,
+                    response: Response
+                ) {
+
+                    val result =
+                        response.body?.string()
+
+                    runOnUiThread {
+
+                        btnLogin.isEnabled = true
+                        btnLogin.text = "Iniciar sesión"
+
+                        try {
+
+                            val jsonResponse =
+                                JSONObject(result!!)
+
+                            if (
+                                jsonResponse.getBoolean(
+                                    "success"
+                                )
+                            ) {
+
+                                // =========================
+                                // GUARDAR SESIÓN
+                                // =========================
+                                val usuarioId =
+                                    jsonResponse.getInt(
+                                        "usuario_id"
+                                    )
+
+                                val nombre =
+                                    jsonResponse.getString(
+                                        "nombre"
+                                    )
+
+                                val prefs =
+                                    getSharedPreferences(
+                                        "agroia",
+                                        MODE_PRIVATE
+                                    )
+
+                                prefs.edit()
+                                    .putInt(
+                                        "usuario_id",
+                                        usuarioId
+                                    )
+                                    .putString(
+                                        "nombre",
+                                        nombre
+                                    )
+                                    .apply()
+
+                                Toast.makeText(
+                                    this@LoginActivity,
+                                    "Bienvenido $nombre",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+
+                                // =========================
+                                // ABRIR MAIN
+                                // =========================
+                                startActivity(
+                                    Intent(
+                                        this@LoginActivity,
+                                        MainActivity::class.java
+                                    )
+                                )
+
+                                finish()
+
+                            } else {
+
+                                Toast.makeText(
+                                    this@LoginActivity,
+                                    "Correo o contraseña incorrectos",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+
+                        } catch (e: Exception) {
+
+                            Toast.makeText(
+                                this@LoginActivity,
+                                "Error al procesar respuesta",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+                }
+            })
     }
 }
