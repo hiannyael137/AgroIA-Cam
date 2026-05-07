@@ -17,30 +17,91 @@
         android:orientation="vertical"
         android:padding="20dp">
 
-        <!-- NOMBRE -->
+        <!-- FOTO + NOMBRE -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
 
+            <ImageView
+                android:id="@+id/imgPlant"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_plant_placeholder"
+                android:background="@drawable/circle_bg"
+                android:clipToOutline="true"
+                android:layout_marginEnd="16dp"/>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvPlantName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Rosa Patio"
+                    android:textColor="#FFFFFF"
+                    android:textSize="22sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/tvPlantStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Estado: Saludable"
+                    android:textColor="#A5D6A7"
+                    android:textSize="15sp"
+                    android:layout_marginTop="4dp"/>
+
+            </LinearLayout>
+
+            <!-- BOTON ELIMINAR -->
+            <ImageButton
+                android:id="@+id/btnDeletePlant"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:background="@drawable/button_dark"
+                android:src="@drawable/ic_delete"
+                android:padding="8dp"
+                android:contentDescription="Eliminar"/>
+
+        </LinearLayout>
+
+        <!-- BARRA DE SALUD -->
         <TextView
-            android:id="@+id/tvPlantName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Rosa Patio"
-            android:textColor="#FFFFFF"
-            android:textSize="22sp"
-            android:textStyle="bold" />
+            android:text="Salud de la planta"
+            android:textColor="#BDBDBD"
+            android:textSize="13sp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="6dp"/>
 
-        <!-- ESTADO -->
+        <ProgressBar
+            android:id="@+id/progressSalud"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="12dp"
+            android:max="100"
+            android:progress="100"
+            android:progressTint="#86EFAC"
+            android:progressBackgroundTint="#2D4A3E"/>
 
         <TextView
-            android:id="@+id/tvPlantStatus"
+            android:id="@+id/tvSaludPorcentaje"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Estado: Saludable"
-            android:textColor="#A5D6A7"
-            android:textSize="15sp"
-            android:layout_marginTop="12dp" />
+            android:text="100%"
+            android:textColor="#86EFAC"
+            android:textSize="13sp"
+            android:layout_marginTop="4dp"/>
 
         <!-- HUMEDAD -->
-
         <TextView
             android:id="@+id/tvHumidity"
             android:layout_width="wrap_content"
@@ -48,10 +109,9 @@
             android:text="Humedad: 65%"
             android:textColor="#E0E0E0"
             android:textSize="15sp"
-            android:layout_marginTop="6dp" />
+            android:layout_marginTop="10dp"/>
 
         <!-- ULTIMO RIEGO -->
-
         <TextView
             android:id="@+id/tvLastWater"
             android:layout_width="wrap_content"
@@ -59,7 +119,7 @@
             android:text="Último riego: Hace 2 días"
             android:textColor="#BDBDBD"
             android:textSize="14sp"
-            android:layout_marginTop="6dp" />
+            android:layout_marginTop="6dp"/>
 
     </LinearLayout>
 
