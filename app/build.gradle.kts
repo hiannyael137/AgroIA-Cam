@@ -56,6 +56,11 @@ android {
 
         viewBinding = true
     }
+
+    // Evita que el modelo se comprima (obligatorio para TFLite)
+    androidResources {
+        noCompress += "tflite"
+    }
 }
 
 dependencies {
@@ -70,12 +75,14 @@ dependencies {
 
     implementation("androidx.recyclerview:recyclerview:1.3.2")
 
-    implementation("com.github.bumptech.glide:glide:4.16.0")
     // OKHTTP
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
 
     // JSON
     implementation("org.json:json:20240303")
+
+    // TensorFlow Lite — Teachable Machine
+    implementation("org.tensorflow:tensorflow-lite:2.14.0")
 
     testImplementation("junit:junit:4.13.2")
 

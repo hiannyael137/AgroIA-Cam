@@ -26,7 +26,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="🌱 Registrar Planta"
+            android:text="Registrar Planta"
             android:textSize="30sp"
             android:textStyle="bold"
             android:textColor="@color/text_primary"/>
@@ -73,11 +73,11 @@
                 android:layout_height="48dp"
                 android:layout_weight="1"
                 android:layout_marginEnd="8dp"
-                android:text="📷 Cámara"
+                android:text="Cámara"
                 android:textAllCaps="false"
                 android:textColor="@color/text_primary"
                 android:textSize="14sp"
-                android:background="@drawable/button_dark"
+                android:background="@drawable/button_green"
                 android:stateListAnimator="@null"/>
 
             <Button
@@ -86,11 +86,11 @@
                 android:layout_height="48dp"
                 android:layout_weight="1"
                 android:layout_marginStart="8dp"
-                android:text="🖼️ Galería"
+                android:text=" Galería"
                 android:textAllCaps="false"
                 android:textColor="@color/text_primary"
                 android:textSize="14sp"
-                android:background="@drawable/button_dark"
+                android:background="@drawable/button_green"
                 android:stateListAnimator="@null"/>
 
         </LinearLayout>
