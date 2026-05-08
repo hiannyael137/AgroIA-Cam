@@ -1,5 +1,12 @@
-0 Rosal blanco
-1 Cola de burro
-2 Pasto de limon
-3 Alcatraz
-4 Cinta
+0 Rosal Sano
+1 Rosal enfermo-roya
+2 Rosal enfermo-pulgones
+3 Cactus Sano
+4 Cactus enfermo-Hongo
+5 Cactus enfermo-Infeccion
+6 Cinta Sana
+7 Cinta enferma-Falta de luz
+8 Cola de borrego Sana
+9 Cola de borrego enfermo-tallo seco
+10 Alcatraz Sano
+11 Alcatraz enfermo-cochinilla escamosa

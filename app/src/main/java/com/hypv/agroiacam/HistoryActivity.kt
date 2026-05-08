@@ -104,43 +104,57 @@ class HistoryActivity : AppCompatActivity() {
 
                     if (result != null) {
 
-                        val jsonArray =
-                            JSONArray(result)
+                        try {
 
-                        historyList.clear()
+                            val jsonArray =
+                                JSONArray(result)
 
-                        for (i in 0 until jsonArray.length()) {
+                            historyList.clear()
 
-                            val obj =
-                                jsonArray.getJSONObject(i)
+                            for (i in 0 until jsonArray.length()) {
 
-                            val item = HistoryItem(
+                                val obj =
+                                    jsonArray.getJSONObject(i)
 
-                                resultado =
-                                    obj.getString("resultado"),
+                                val item = HistoryItem(
 
-                                planta =
-                                    obj.getString("planta"),
+                                    resultado =
+                                        obj.optString("resultado", "Sin resultado"),
 
-                                estado =
-                                    obj.getString("estado"),
+                                    planta =
+                                        obj.optString("planta", "Planta"),
 
-                                confianza =
-                                    obj.getInt("confianza"),
+                                    estado =
+                                        obj.optString("estado", "--"),
 
-                                metodo =
-                                    obj.getString("metodo"),
+                                    confianza =
+                                        obj.optInt("confianza", 0),
 
-                                fecha =
-                                    obj.getString("fecha")
-                            )
+                                    metodo =
+                                        obj.optString("metodo", "IA"),
 
-                            historyList.add(item)
-                        }
+                                    fecha =
+                                        obj.optString("fecha", "--")
+                                )
 
-                        runOnUiThread {
+                                historyList.add(item)
+                            }
 
-                            adapter.notifyDataSetChanged()
+                            runOnUiThread {
+
+                                adapter.notifyDataSetChanged()
+                            }
+
+                        } catch (e: Exception) {
+
+                            runOnUiThread {
+
+                                Toast.makeText(
+                                    this@HistoryActivity,
+                                    "Error procesando historial",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
                         }
                     }
                 }

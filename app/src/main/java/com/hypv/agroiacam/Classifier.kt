@@ -57,8 +57,11 @@ class Classifier(private val context: Context) {
             )
         )
 
-        reader.forEachLine {
-            labels.add(it)
+        reader.forEachLine { line ->
+            val label = if (line.trim().matches(Regex("^\\d+ .+"))) {
+                line.trim().substringAfter(" ").trim()
+            } else line.trim()
+            if (label.isNotEmpty()) labels.add(label)
         }
 
         reader.close()

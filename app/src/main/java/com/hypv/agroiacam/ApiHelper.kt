@@ -9,282 +9,103 @@ import java.io.IOException
 
 object ApiHelper {
 
-    // =========================================
-    // URL BASE NODE-RED
-    // =========================================
+    // Emulador → 10.0.2.2 | Celular físico → IP de tu laptop
     var BASE_URL = "http://10.0.2.2:1880"
 
-    private val client = OkHttpClient()
+    private val client   = OkHttpClient()
+    private val JSON_TYPE = "application/json; charset=utf-8".toMediaType()
 
-    private val JSON_TYPE =
-        "application/json; charset=utf-8".toMediaType()
-
-    // =========================================
-    // GUARDAR RESULTADO IA
-    // =========================================
+    // ── Guardar resultado IA ─────────────────────────────────────────────────
     fun guardarResultado(
         usuarioId: Int,
-        planta: String,
-        estado: String,
+        planta:    String,
+        estado:    String,
         confianza: Float,
-        callback: (ok: Boolean) -> Unit
+        callback:  (ok: Boolean) -> Unit
     ) {
+        val body = JSONObject().apply {
+            put("usuario_id", usuarioId)
+            put("resultado",  planta)
+            put("estado",     estado)
+            put("confianza",  confianza)
+            put("metodo",     "IA")
+        }.toString().toRequestBody(JSON_TYPE)
 
-        val json = JSONObject()
-
-        json.put("usuario_id", usuarioId)
-        json.put("resultado", planta)
-        json.put("estado", estado)
-        json.put("confianza", confianza)
-        json.put("metodo", "IA")
-
-        val body = json.toString()
-            .toRequestBody(JSON_TYPE)
-
-        val request = Request.Builder()
-            .url("$BASE_URL/guardarResultado")
-            .post(body)
-            .build()
-
-        client.newCall(request)
-            .enqueue(object : Callback {
-
-                override fun onFailure(
-                    call: Call,
-                    e: IOException
-                ) {
-
-                    callback(false)
-                }
-
-                override fun onResponse(
-                    call: Call,
-                    response: Response
-                ) {
-
-                    callback(response.isSuccessful)
-                }
-            })
+        post("$BASE_URL/guardarResultado", body, callback)
     }
 
-    // =========================================
-    // OBTENER HISTORIAL
-    // =========================================
-    fun obtenerHistorial(
-        usuarioId: Int,
-        callback: (JSONArray?) -> Unit
-    ) {
-
+    // ── Historial ─────────────────────────────────────────────────────────────
+    fun obtenerHistorial(usuarioId: Int, callback: (JSONArray?) -> Unit) {
         val request = Request.Builder()
             .url("$BASE_URL/getHistory?usuario_id=$usuarioId")
-            .get()
-            .build()
+            .get().build()
 
-        client.newCall(request)
-            .enqueue(object : Callback {
-
-                override fun onFailure(
-                    call: Call,
-                    e: IOException
-                ) {
-
-                    callback(null)
-                }
-
-                override fun onResponse(
-                    call: Call,
-                    response: Response
-                ) {
-
-                    try {
-
-                        val result =
-                            response.body?.string()
-
-                        val jsonArray =
-                            JSONArray(result)
-
-                        callback(jsonArray)
-
-                    } catch (e: Exception) {
-
-                        callback(null)
-                    }
-                }
-            })
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) = callback(null)
+            override fun onResponse(call: Call, response: Response) {
+                try { callback(JSONArray(response.body?.string())) }
+                catch (e: Exception) { callback(null) }
+            }
+        })
     }
 
-    // =========================================
-    // GUARDAR ACTIVIDAD
-    // =========================================
-    fun guardarActividad(
-        planta: String,
-        actividad: String,
-        notas: String,
-        callback: (ok: Boolean) -> Unit
-    ) {
-
-        val json = JSONObject()
-
-        json.put("planta", planta)
-        json.put("actividad", actividad)
-        json.put("notas", notas)
-
-        val body = json.toString()
-            .toRequestBody(JSON_TYPE)
-
-        val request = Request.Builder()
-            .url("$BASE_URL/saveActivity")
-            .post(body)
-            .build()
-
-        client.newCall(request)
-            .enqueue(object : Callback {
-
-                override fun onFailure(
-                    call: Call,
-                    e: IOException
-                ) {
-
-                    callback(false)
-                }
-
-                override fun onResponse(
-                    call: Call,
-                    response: Response
-                ) {
-
-                    callback(response.isSuccessful)
-                }
-            })
+    // ── Guardar actividad ─────────────────────────────────────────────────────
+    fun guardarActividad(planta: String, actividad: String, notas: String,
+                         callback: (ok: Boolean) -> Unit) {
+        val body = JSONObject().apply {
+            put("planta",    planta)
+            put("actividad", actividad)
+            put("notas",     notas)
+        }.toString().toRequestBody(JSON_TYPE)
+        post("$BASE_URL/saveActivity", body, callback)
     }
 
-    // =========================================
-    // OBTENER FOTO ESP32-CAM
-    // =========================================
-    fun obtenerFotoESP32(
-        callback: (
-            bytes: ByteArray?,
-            error: String?
-        ) -> Unit
-    ) {
-
-        val request = Request.Builder()
-            .url("$BASE_URL/esp32foto")
-            .get()
-            .build()
-
-        client.newCall(request)
-            .enqueue(object : Callback {
-
-                override fun onFailure(
-                    call: Call,
-                    e: IOException
-                ) {
-
-                    callback(
-                        null,
-                        "Sin conexión: ${e.message}"
-                    )
-                }
-
-                override fun onResponse(
-                    call: Call,
-                    response: Response
-                ) {
-
-                    if (!response.isSuccessful) {
-
-                        callback(
-                            null,
-                            "Error del servidor"
-                        )
-
-                        return
-                    }
-
-                    val bytes =
-                        response.body?.bytes()
-
-                    if (
-                        bytes == null ||
-                        bytes.isEmpty()
-                    ) {
-
-                        callback(
-                            null,
-                            "ESP32-CAM no envió imagen"
-                        )
-
-                    } else {
-
-                        callback(bytes, null)
-                    }
-                }
-            })
+    // ── Configurar ESP32 para una planta ──────────────────────────────────────
+    fun configurarESP32(plantaId: Int, callback: (ok: Boolean) -> Unit) {
+        val body = JSONObject().apply {
+            put("planta_id", plantaId)
+        }.toString().toRequestBody(JSON_TYPE)
+        post("$BASE_URL/configESP32", body, callback)
     }
 
-    // =========================================
-    // OBTENER SENSORES
-    // =========================================
-    fun obtenerSensores(
-        callback: (
-            humedad: Int,
-            temperatura: Int
-        ) -> Unit
-    ) {
-
+    // ── Obtener datos sensores de una planta ──────────────────────────────────
+    fun obtenerDatosPlanta(plantaId: Int, callback: (JSONArray?) -> Unit) {
         val request = Request.Builder()
-            .url("$BASE_URL/ultimoSensor")
-            .get()
-            .build()
+            .url("$BASE_URL/getPlantData?planta_id=$plantaId")
+            .get().build()
 
-        client.newCall(request)
-            .enqueue(object : Callback {
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) = callback(null)
+            override fun onResponse(call: Call, response: Response) {
+                try { callback(JSONArray(response.body?.string())) }
+                catch (e: Exception) { callback(null) }
+            }
+        })
+    }
 
-                override fun onFailure(
-                    call: Call,
-                    e: IOException
-                ) {
+    // ── Foto ESP32-CAM ────────────────────────────────────────────────────────
+    fun obtenerFotoESP32(callback: (bytes: ByteArray?, error: String?) -> Unit) {
+        val request = Request.Builder()
+            .url("$BASE_URL/esp32foto").get().build()
 
-                    callback(0, 0)
-                }
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) =
+                callback(null, "Sin conexión: ${e.message}")
+            override fun onResponse(call: Call, response: Response) {
+                if (!response.isSuccessful) { callback(null, "Error: ${response.code}"); return }
+                val bytes = response.body?.bytes()
+                if (bytes == null || bytes.isEmpty()) callback(null, "ESP32-CAM no envió imagen")
+                else callback(bytes, null)
+            }
+        })
+    }
 
-                override fun onResponse(
-                    call: Call,
-                    response: Response
-                ) {
-
-                    try {
-
-                        val result =
-                            response.body?.string()
-
-                        val json =
-                            JSONObject(result!!)
-
-                        val humedad =
-                            json.optInt(
-                                "humedad_suelo",
-                                0
-                            )
-
-                        val temperatura =
-                            json.optInt(
-                                "temperatura",
-                                0
-                            )
-
-                        callback(
-                            humedad,
-                            temperatura
-                        )
-
-                    } catch (e: Exception) {
-
-                        callback(0, 0)
-                    }
-                }
-            })
+    // ── Helper interno ────────────────────────────────────────────────────────
+    private fun post(url: String, body: RequestBody, callback: (Boolean) -> Unit) {
+        val request = Request.Builder().url(url).post(body).build()
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) = callback(false)
+            override fun onResponse(call: Call, response: Response) = callback(response.isSuccessful)
+        })
     }
 }
