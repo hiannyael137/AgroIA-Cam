@@ -1,108 +1,231 @@
 package com.hypv.agroiacam
 
-import okhttp3.*
+import android.content.Context
+import android.net.Uri
+import okhttp3.Call
+import okhttp3.Callback
 import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
+import okhttp3.Response
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.IOException
+import java.util.concurrent.TimeUnit
 
 object ApiHelper {
 
-    // Emulador → 10.0.2.2 | Celular físico → IP de tu laptop
-    var BASE_URL = "http://10.0.2.2:1880"
+    // Cambia esta IP si tu laptop cambia de red.
+    // Para emulador Android Studio usa: http://10.0.2.2:1880
+    var BASE_URL = "http://172.18.19.87:1880"
 
-    private val client   = OkHttpClient()
+    private val client = OkHttpClient.Builder()
+        .connectTimeout(15, TimeUnit.SECONDS)
+        .readTimeout(30, TimeUnit.SECONDS)
+        .writeTimeout(30, TimeUnit.SECONDS)
+        .build()
+
     private val JSON_TYPE = "application/json; charset=utf-8".toMediaType()
 
-    // ── Guardar resultado IA ─────────────────────────────────────────────────
     fun guardarResultado(
         usuarioId: Int,
-        planta:    String,
-        estado:    String,
+        plantaId: Int = 0,
+        plantaRegistrada: String = "",
+        claseDetectada: String,
+        especieDetectada: String = "",
+        problemaDetectado: String = "",
+        estado: String,
         confianza: Float,
-        callback:  (ok: Boolean) -> Unit
+        solucion: String = "",
+        validacion: String = "VALIDO",
+        mensajeValidacion: String = "",
+        imagenUrl: String = "",
+        callback: (ok: Boolean) -> Unit
     ) {
+        val confianzaNormalizada = if (confianza <= 1f) confianza else confianza / 100f
+
+        val estadoLimpio = estado
+            .replace("🟢", "")
+            .replace("🟡", "")
+            .replace("🔴", "")
+            .trim()
+
         val body = JSONObject().apply {
             put("usuario_id", usuarioId)
-            put("resultado",  planta)
-            put("estado",     estado)
-            put("confianza",  confianza)
-            put("metodo",     "IA")
+            put("planta_id", plantaId)
+            put("planta", plantaRegistrada.ifBlank { especieDetectada })
+            put("planta_registrada", plantaRegistrada)
+            put("resultado", claseDetectada)
+            put("clase_detectada", claseDetectada)
+            put("especie_detectada", especieDetectada)
+            put("problema_detectado", problemaDetectado)
+            put("estado", estadoLimpio)
+            put("estado_salud", estadoLimpio)
+            put("confianza", confianzaNormalizada)
+            put("metodo", "IA Validada")
+            put("solucion", solucion)
+            put("validacion", validacion)
+            put("mensaje_validacion", mensajeValidacion)
+            put("imagen_url", imagenUrl)
         }.toString().toRequestBody(JSON_TYPE)
 
         post("$BASE_URL/guardarResultado", body, callback)
     }
 
-    // ── Historial ─────────────────────────────────────────────────────────────
     fun obtenerHistorial(usuarioId: Int, callback: (JSONArray?) -> Unit) {
         val request = Request.Builder()
             .url("$BASE_URL/getHistory?usuario_id=$usuarioId")
-            .get().build()
+            .get()
+            .build()
 
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) = callback(null)
+
             override fun onResponse(call: Call, response: Response) {
-                try { callback(JSONArray(response.body?.string())) }
-                catch (e: Exception) { callback(null) }
+                try {
+                    val text = response.body?.string().orEmpty()
+                    if (!response.isSuccessful) {
+                        callback(null)
+                        return
+                    }
+                    callback(JSONArray(text))
+                } catch (e: Exception) {
+                    callback(null)
+                }
             }
         })
     }
 
-    // ── Guardar actividad ─────────────────────────────────────────────────────
-    fun guardarActividad(planta: String, actividad: String, notas: String,
-                         callback: (ok: Boolean) -> Unit) {
+    fun guardarActividad(
+        usuarioId: Int,
+        plantaId: Int,
+        planta: String,
+        actividad: String,
+        notas: String,
+        callback: (ok: Boolean) -> Unit
+    ) {
         val body = JSONObject().apply {
-            put("planta",    planta)
+            put("usuario_id", usuarioId)
+            put("planta_id", plantaId)
+            put("planta", planta)
             put("actividad", actividad)
-            put("notas",     notas)
+            put("tipo_actividad", actividad)
+            put("notas", notas)
         }.toString().toRequestBody(JSON_TYPE)
+
         post("$BASE_URL/saveActivity", body, callback)
     }
 
-    // ── Configurar ESP32 para una planta ──────────────────────────────────────
     fun configurarESP32(plantaId: Int, callback: (ok: Boolean) -> Unit) {
         val body = JSONObject().apply {
             put("planta_id", plantaId)
         }.toString().toRequestBody(JSON_TYPE)
+
         post("$BASE_URL/configESP32", body, callback)
     }
 
-    // ── Obtener datos sensores de una planta ──────────────────────────────────
     fun obtenerDatosPlanta(plantaId: Int, callback: (JSONArray?) -> Unit) {
         val request = Request.Builder()
             .url("$BASE_URL/getPlantData?planta_id=$plantaId")
-            .get().build()
+            .get()
+            .build()
 
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) = callback(null)
+
             override fun onResponse(call: Call, response: Response) {
-                try { callback(JSONArray(response.body?.string())) }
-                catch (e: Exception) { callback(null) }
+                try {
+                    val text = response.body?.string().orEmpty()
+                    if (!response.isSuccessful) {
+                        callback(null)
+                        return
+                    }
+                    callback(JSONArray(text))
+                } catch (e: Exception) {
+                    callback(null)
+                }
             }
         })
     }
 
-    // ── Foto ESP32-CAM ────────────────────────────────────────────────────────
-    fun obtenerFotoESP32(callback: (bytes: ByteArray?, error: String?) -> Unit) {
-        val request = Request.Builder()
-            .url("$BASE_URL/esp32foto").get().build()
-
-        client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) =
-                callback(null, "Sin conexión: ${e.message}")
-            override fun onResponse(call: Call, response: Response) {
-                if (!response.isSuccessful) { callback(null, "Error: ${response.code}"); return }
-                val bytes = response.body?.bytes()
-                if (bytes == null || bytes.isEmpty()) callback(null, "ESP32-CAM no envió imagen")
-                else callback(bytes, null)
+    fun subirImagen(
+        context: Context,
+        uri: Uri,
+        plantaId: Int? = null,
+        callback: (ok: Boolean, filename: String, error: String?) -> Unit
+    ) {
+        try {
+            val bytes = context.contentResolver.openInputStream(uri)?.use { it.readBytes() }
+            if (bytes == null || bytes.isEmpty()) {
+                callback(false, "", "No se pudo leer la imagen")
+                return
             }
-        })
+
+            val fileName = "agroia_${System.currentTimeMillis()}.jpg"
+            val builder = MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart(
+                    "imagen",
+                    fileName,
+                    bytes.toRequestBody("image/jpeg".toMediaTypeOrNull())
+                )
+
+            if (plantaId != null && plantaId > 0) {
+                builder.addFormDataPart("planta_id", plantaId.toString())
+            }
+
+            val request = Request.Builder()
+                .url("$BASE_URL/uploadImage")
+                .post(builder.build())
+                .build()
+
+            client.newCall(request).enqueue(object : Callback {
+                override fun onFailure(call: Call, e: IOException) {
+                    callback(false, "", e.message ?: "Error de conexión")
+                }
+
+                override fun onResponse(call: Call, response: Response) {
+                    val text = response.body?.string().orEmpty()
+                    if (!response.isSuccessful) {
+                        callback(false, "", "Servidor respondió ${response.code}: $text")
+                        return
+                    }
+
+                    try {
+                        val json = JSONObject(text)
+                        val filename = json.optString("filename", "")
+                        val imagenUrl = json.optString("imagen_url", "")
+                        val finalName = when {
+                            filename.isNotBlank() -> filename
+                            imagenUrl.startsWith("/uploads/") -> imagenUrl.removePrefix("/uploads/")
+                            else -> imagenUrl
+                        }
+
+                        if (finalName.isBlank()) {
+                            callback(false, "", "Node-RED no devolvió nombre de imagen")
+                        } else {
+                            callback(true, finalName, null)
+                        }
+                    } catch (e: Exception) {
+                        callback(false, "", "Respuesta inválida: $text")
+                    }
+                }
+            })
+        } catch (e: Exception) {
+            callback(false, "", e.message ?: "Error leyendo imagen")
+        }
     }
 
-    // ── Helper interno ────────────────────────────────────────────────────────
     private fun post(url: String, body: RequestBody, callback: (Boolean) -> Unit) {
-        val request = Request.Builder().url(url).post(body).build()
+        val request = Request.Builder()
+            .url(url)
+            .post(body)
+            .build()
+
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) = callback(false)
             override fun onResponse(call: Call, response: Response) = callback(response.isSuccessful)

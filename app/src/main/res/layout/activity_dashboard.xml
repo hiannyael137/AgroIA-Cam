@@ -1,517 +1,86 @@
-<?xml version="1.0" encoding="utf-8"?>
-
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fillViewport="true"
-    android:background="@drawable/bg_gradient">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="24dp">
-
-        <ImageButton
-            android:id="@+id/btnBack"
-            android:layout_width="44dp"
-            android:layout_height="44dp"
-            android:layout_marginBottom="8dp"
-            android:background="@drawable/button_dark"
-            android:src="@drawable/ic_arrow_back"
-            android:contentDescription="Regresar"
-            android:padding="10dp" />
-
-        <TextView
-            android:id="@+id/tvPlantName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Rosa 1"
-            android:textSize="32sp"
-            android:textStyle="bold"
-            android:textColor="@color/text_primary"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Estado completo de la planta"
-            android:textSize="15sp"
-            android:textColor="@color/text_secondary"
-            android:layout_marginTop="6dp"/>
-
-        <!-- CARD: Estado actual -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/card_glass"
-            android:orientation="vertical"
-            android:padding="20dp"
-            android:layout_marginTop="28dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Estado actual"
-                android:textColor="@color/text_secondary"/>
-
-            <TextView
-                android:id="@+id/tvEstado"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="🟢 Saludable"
-                android:textSize="26sp"
-                android:textStyle="bold"
-                android:textColor="#86EFAC"
-                android:layout_marginTop="10dp"/>
-
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent" android:fillViewport="true" android:background="@drawable/bg_gradient">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="24dp">
+        <ImageButton android:id="@+id/btnBack" android:layout_width="44dp" android:layout_height="44dp" android:layout_marginBottom="8dp" android:background="@drawable/button_dark" android:src="@drawable/ic_arrow_back" android:contentDescription="Regresar" android:padding="10dp"/>
+        <TextView android:id="@+id/tvPlantName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Rosa 1" android:textSize="32sp" android:textStyle="bold" android:textColor="@color/text_primary"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Estado completo de la planta" android:textSize="15sp" android:textColor="@color/text_secondary" android:layout_marginTop="6dp"/>
+        <!--  CARD: Estado actual  -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:background="@drawable/card_glass" android:orientation="vertical" android:padding="20dp" android:layout_marginTop="28dp">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Estado actual" android:textColor="@color/text_secondary"/>
+            <TextView android:id="@+id/tvEstado" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="🟢 Saludable" android:textSize="26sp" android:textStyle="bold" android:textColor="#86EFAC" android:layout_marginTop="10dp"/>
         </LinearLayout>
-
-        <!-- CARD: Resultado IA — estado vacío (visible al inicio) -->
-        <LinearLayout
-            android:id="@+id/layoutEmptyState"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/card_glass"
-            android:orientation="vertical"
-            android:padding="20dp"
-            android:gravity="center"
-            android:layout_marginTop="18dp"
-            android:visibility="visible">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="🤖 Diagnóstico IA"
-                android:textColor="@color/text_secondary"
-                android:textStyle="bold"
-                android:textSize="15sp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Toma una foto para analizar tu planta"
-                android:textColor="@color/text_secondary"
-                android:textSize="13sp"
-                android:layout_marginTop="8dp"/>
-
+        <!--  CARD: Resultado IA — estado vacío (visible al inicio)  -->
+        <LinearLayout android:id="@+id/layoutEmptyState" android:layout_width="match_parent" android:layout_height="wrap_content" android:background="@drawable/card_glass" android:orientation="vertical" android:padding="20dp" android:gravity="center" android:layout_marginTop="18dp" android:visibility="visible">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Diagnóstico IA" android:textColor="@color/text_secondary" android:textStyle="bold" android:textSize="15sp"/>
+            <TextView android:id="@+id/tvIAMensajeDashboard" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Sin diagnóstico todavía. Toma una foto clara de tu planta." android:textColor="@color/text_secondary" android:textSize="13sp" android:layout_marginTop="8dp"/>
         </LinearLayout>
-
-        <!-- CARD: Resultado IA — con datos (oculto al inicio) -->
-        <LinearLayout
-            android:id="@+id/layoutResult"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/card_glass"
-            android:orientation="vertical"
-            android:padding="20dp"
-            android:layout_marginTop="18dp"
-            android:visibility="gone">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="🤖 Diagnóstico IA"
-                android:textColor="@color/text_secondary"
-                android:textStyle="bold"
-                android:textSize="15sp"/>
-
-            <TextView
-                android:id="@+id/tvIAPlant"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:textColor="@color/text_primary"
-                android:textSize="22sp"
-                android:textStyle="bold"
-                android:layout_marginTop="10dp"/>
-
-            <TextView
-                android:id="@+id/tvIAConfianza"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:textColor="@color/text_secondary"
-                android:textSize="13sp"
-                android:layout_marginTop="4dp"/>
-
-            <TextView
-                android:id="@+id/tvIAEstado"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:textColor="#86EFAC"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:layout_marginTop="10dp"/>
-
-            <TextView
-                android:id="@+id/tvIAConsejo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:textColor="@color/text_secondary"
-                android:textSize="13sp"
-                android:layout_marginTop="8dp"/>
-
+        <!--  CARD: Resultado IA — con datos (oculto al inicio)  -->
+        <LinearLayout android:id="@+id/layoutResult" android:layout_width="match_parent" android:layout_height="wrap_content" android:background="@drawable/card_glass" android:orientation="vertical" android:padding="20dp" android:layout_marginTop="18dp" android:visibility="gone">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Diagnóstico IA" android:textColor="@color/text_secondary" android:textStyle="bold" android:textSize="15sp"/>
+            <TextView android:id="@+id/tvIAPlant" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="" android:textColor="@color/text_primary" android:textSize="22sp" android:textStyle="bold" android:layout_marginTop="10dp"/>
+            <TextView android:id="@+id/tvIAConfianza" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="" android:textColor="@color/text_secondary" android:textSize="13sp" android:layout_marginTop="4dp"/>
+            <TextView android:id="@+id/tvIAEstado" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="" android:textColor="#86EFAC" android:textSize="18sp" android:textStyle="bold" android:layout_marginTop="10dp"/>
+            <TextView android:id="@+id/tvIAConsejo" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="" android:textColor="@color/text_secondary" android:textSize="13sp" android:layout_marginTop="8dp"/>
+            <Button android:id="@+id/btnRetryScan" android:layout_width="match_parent" android:layout_height="52dp" android:layout_marginTop="16dp" android:text="Tomar otra foto" android:textAllCaps="false" android:textColor="@android:color/white" android:textStyle="bold" android:textSize="14sp" android:background="@drawable/button_green"/>
         </LinearLayout>
-
-        <!-- CARD: Humedad y Temperatura -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="18dp">
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/card_glass"
-                android:orientation="vertical"
-                android:padding="18dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Humedad"
-                    android:textColor="@color/text_secondary"/>
-
-                <TextView
-                    android:id="@+id/tvHumedad"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="--"
-                    android:textColor="@color/text_primary"
-                    android:textStyle="bold"
-                    android:textSize="28sp"
-                    android:layout_marginTop="10dp"/>
-
+        <!--  CARD: Humedad y Temperatura  -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="18dp">
+            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:background="@drawable/card_glass" android:orientation="vertical" android:padding="18dp">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Humedad" android:textColor="@color/text_secondary"/>
+                <TextView android:id="@+id/tvHumedad" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="--" android:textColor="@color/text_primary" android:textStyle="bold" android:textSize="28sp" android:layout_marginTop="10dp"/>
             </LinearLayout>
-
-            <Space
-                android:layout_width="14dp"
-                android:layout_height="1dp"/>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/card_glass"
-                android:orientation="vertical"
-                android:padding="18dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Temperatura"
-                    android:textColor="@color/text_secondary"/>
-
-                <TextView
-                    android:id="@+id/tvTemperatura"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="--°C"
-                    android:textColor="@color/text_primary"
-                    android:textStyle="bold"
-                    android:textSize="28sp"
-                    android:layout_marginTop="10dp"/>
-
+            <Space android:layout_width="14dp" android:layout_height="1dp"/>
+            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:background="@drawable/card_glass" android:orientation="vertical" android:padding="18dp">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Temperatura" android:textColor="@color/text_secondary"/>
+                <TextView android:id="@+id/tvTemperatura" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="--°C" android:textColor="@color/text_primary" android:textStyle="bold" android:textSize="28sp" android:layout_marginTop="10dp"/>
             </LinearLayout>
-
         </LinearLayout>
-
-        <!-- CARD: Sensores ESP32 -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/card_glass"
-            android:orientation="vertical"
-            android:padding="20dp"
-            android:layout_marginTop="18dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="📡 Sensores ESP32"
-                    android:textColor="@color/text_primary"
-                    android:textStyle="bold"
-                    android:textSize="17sp"/>
-
-                <TextView
-                    android:id="@+id/tvSensorStatus"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="● Desconectado"
-                    android:textColor="#EF4444"
-                    android:textSize="12sp"/>
-
+        <!--  CARD: Sensores ESP32  -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:background="@drawable/card_glass" android:orientation="vertical" android:padding="20dp" android:layout_marginTop="18dp">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Sensores ESP32" android:textColor="@color/text_primary" android:textStyle="bold" android:textSize="17sp"/>
+                <TextView android:id="@+id/tvSensorStatus" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="● Desconectado" android:textColor="#EF4444" android:textSize="12sp"/>
             </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="16dp">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="💧 Hum. Ambiente"
-                        android:textColor="@color/text_secondary"
-                        android:textSize="13sp"/>
-
-                    <TextView
-                        android:id="@+id/tvHumedadAmbiente"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="--%"
-                        android:textColor="@color/text_primary"
-                        android:textStyle="bold"
-                        android:textSize="24sp"
-                        android:layout_marginTop="4dp"/>
-
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="16dp">
+                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="💧 Hum. Ambiente" android:textColor="@color/text_secondary" android:textSize="13sp"/>
+                    <TextView android:id="@+id/tvHumedadAmbiente" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="--%" android:textColor="@color/text_primary" android:textStyle="bold" android:textSize="24sp" android:layout_marginTop="4dp"/>
                 </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="☀️ Luz"
-                        android:textColor="@color/text_secondary"
-                        android:textSize="13sp"/>
-
-                    <TextView
-                        android:id="@+id/tvLuz"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="-- lux"
-                        android:textColor="@color/text_primary"
-                        android:textStyle="bold"
-                        android:textSize="24sp"
-                        android:layout_marginTop="4dp"/>
-
+                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="☀️ Luz" android:textColor="@color/text_secondary" android:textSize="13sp"/>
+                    <TextView android:id="@+id/tvLuz" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="-- lux" android:textColor="@color/text_primary" android:textStyle="bold" android:textSize="24sp" android:layout_marginTop="4dp"/>
                 </LinearLayout>
-
             </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="14dp">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="🌱 Hum. Suelo"
-                        android:textColor="@color/text_secondary"
-                        android:textSize="13sp"/>
-
-                    <TextView
-                        android:id="@+id/tvHumedadSuelo"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="--%"
-                        android:textColor="@color/text_primary"
-                        android:textStyle="bold"
-                        android:textSize="24sp"
-                        android:layout_marginTop="4dp"/>
-
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="14dp">
+                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="🌱 Hum. Suelo" android:textColor="@color/text_secondary" android:textSize="13sp"/>
+                    <TextView android:id="@+id/tvHumedadSuelo" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="--%" android:textColor="@color/text_primary" android:textStyle="bold" android:textSize="24sp" android:layout_marginTop="4dp"/>
                 </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="🧂 Salinidad"
-                        android:textColor="@color/text_secondary"
-                        android:textSize="13sp"/>
-
-                    <TextView
-                        android:id="@+id/tvSalinidad"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="--"
-                        android:textColor="@color/text_primary"
-                        android:textStyle="bold"
-                        android:textSize="24sp"
-                        android:layout_marginTop="4dp"/>
-
+                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="🧂 Salinidad" android:textColor="@color/text_secondary" android:textSize="13sp"/>
+                    <TextView android:id="@+id/tvSalinidad" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="--" android:textColor="@color/text_primary" android:textStyle="bold" android:textSize="24sp" android:layout_marginTop="4dp"/>
                 </LinearLayout>
-
             </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="14dp">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="🔋 Batería"
-                        android:textColor="@color/text_secondary"
-                        android:textSize="13sp"/>
-
-                    <TextView
-                        android:id="@+id/tvBateria"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="--%"
-                        android:textColor="@color/text_primary"
-                        android:textStyle="bold"
-                        android:textSize="24sp"
-                        android:layout_marginTop="4dp"/>
-
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="14dp">
+                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="🔋 Batería" android:textColor="@color/text_secondary" android:textSize="13sp"/>
+                    <TextView android:id="@+id/tvBateria" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="--%" android:textColor="@color/text_primary" android:textStyle="bold" android:textSize="24sp" android:layout_marginTop="4dp"/>
                 </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical"/>
-
+                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical"/>
             </LinearLayout>
-
-            <Button
-                android:id="@+id/btnConectarESP32"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginTop="16dp"
-                android:text="Conectar ESP32 a esta planta"
-                android:textAllCaps="false"
-                android:textColor="@color/text_primary"
-                android:textStyle="bold"
-                android:textSize="14sp"
-                android:background="@drawable/button_dark"/>
-
+            <Button android:id="@+id/btnConectarESP32" android:layout_width="match_parent" android:layout_height="48dp" android:layout_marginTop="16dp" android:text="Conectar ESP32 a esta planta" android:textAllCaps="false" android:textColor="@color/text_primary" android:textStyle="bold" android:textSize="14sp" android:background="@drawable/button_dark"/>
         </LinearLayout>
-
-        <!-- CARD: Escanear con IA -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/card_glass"
-            android:orientation="vertical"
-            android:padding="20dp"
-            android:layout_marginTop="18dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="🤖 Escanear con IA"
-                android:textColor="@color/text_primary"
-                android:textStyle="bold"
-                android:textSize="17sp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Detecta el estado de tu planta usando inteligencia artificial"
-                android:textColor="@color/text_secondary"
-                android:textSize="13sp"
-                android:layout_marginTop="6dp"
-                android:layout_marginBottom="16dp"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/btnScanCamera"
-                    android:layout_width="0dp"
-                    android:layout_height="52dp"
-                    android:layout_weight="1"
-                    android:text="📷 Cámara"
-                    android:textAllCaps="false"
-                    android:textColor="@android:color/white"
-                    android:textStyle="bold"
-                    android:textSize="14sp"
-                    android:background="@drawable/button_green"/>
-
-                <Space
-                    android:layout_width="12dp"
-                    android:layout_height="1dp"/>
-
-                <Button
-                    android:id="@+id/btnScanESP32"
-                    android:layout_width="0dp"
-                    android:layout_height="52dp"
-                    android:layout_weight="1"
-                    android:text="📡 ESP32-CAM"
-                    android:textAllCaps="false"
-                    android:textColor="@color/text_primary"
-                    android:textStyle="bold"
-                    android:textSize="14sp"
-                    android:background="@drawable/button_dark"/>
-
+        <!--  CARD: Escanear con IA  -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:background="@drawable/card_glass" android:orientation="vertical" android:padding="20dp" android:layout_marginTop="18dp">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Escanear con IA" android:textColor="@color/text_primary" android:textStyle="bold" android:textSize="17sp"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Detecta el estado de tu planta usando inteligencia artificial" android:textColor="@color/text_secondary" android:textSize="13sp" android:layout_marginTop="6dp" android:layout_marginBottom="16dp"/>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+                <Button android:id="@+id/btnScanCamera" android:layout_width="0dp" android:layout_height="52dp" android:layout_weight="1" android:text="Cámara" android:textAllCaps="false" android:textColor="@android:color/white" android:textStyle="bold" android:textSize="14sp" android:background="@drawable/button_green"/>
+                <Space android:layout_width="12dp" android:layout_height="1dp"/>
+                <Button android:id="@+id/btnScanESP32" android:layout_width="0dp" android:layout_height="52dp" android:layout_weight="1" android:text="ESP32-CAM" android:textAllCaps="false" android:textColor="@color/text_primary" android:textStyle="bold" android:textSize="14sp" android:background="@drawable/button_dark"/>
             </LinearLayout>
-
         </LinearLayout>
-
-        <!-- Botones principales -->
-        <Button
-            android:id="@+id/btnCare"
-            android:layout_width="match_parent"
-            android:layout_height="58dp"
-            android:layout_marginTop="28dp"
-            android:text="Registrar actividad"
-            android:textAllCaps="false"
-            android:textColor="@android:color/white"
-            android:textStyle="bold"
-            android:textSize="16sp"
-            android:background="@drawable/button_green"/>
-
-        <Button
-            android:id="@+id/btnHistory"
-            android:layout_width="match_parent"
-            android:layout_height="58dp"
-            android:layout_marginTop="14dp"
-            android:text="Ver historial"
-            android:textAllCaps="false"
-            android:textColor="@color/text_primary"
-            android:textStyle="bold"
-            android:textSize="16sp"
-            android:background="@drawable/button_dark"/>
-
+        <!--  Botones principales  -->
+        <Button android:id="@+id/btnCare" android:layout_width="match_parent" android:layout_height="58dp" android:layout_marginTop="28dp" android:text="Registrar actividad" android:textAllCaps="false" android:textColor="@android:color/white" android:textStyle="bold" android:textSize="16sp" android:background="@drawable/button_green"/>
+        <Button android:id="@+id/btnHistory" android:layout_width="match_parent" android:layout_height="58dp" android:layout_marginTop="14dp" android:text="Ver historial" android:textAllCaps="false" android:textColor="@color/text_primary" android:textStyle="bold" android:textSize="16sp" android:background="@drawable/button_dark"/>
     </LinearLayout>
-
 </ScrollView>
