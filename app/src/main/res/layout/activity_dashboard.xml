@@ -6,27 +6,30 @@
         <!--  CARD: Estado actual  -->
         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:background="@drawable/card_glass" android:orientation="vertical" android:padding="20dp" android:layout_marginTop="28dp">
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Estado actual" android:textColor="@color/text_secondary"/>
-            <TextView android:id="@+id/tvEstado" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="🟢 Saludable" android:textSize="26sp" android:textStyle="bold" android:textColor="#86EFAC" android:layout_marginTop="10dp"/>
+            <TextView android:id="@+id/tvEstado" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Sin diagnóstico" android:textSize="26sp" android:textStyle="bold" android:textColor="#86EFAC" android:layout_marginTop="10dp"/>
         </LinearLayout>
-        <!--  CARD: Resultado IA — estado vacío (visible al inicio)  -->
+        <!--  CARD: Diagnóstico IA vacío  -->
         <LinearLayout android:id="@+id/layoutEmptyState" android:layout_width="match_parent" android:layout_height="wrap_content" android:background="@drawable/card_glass" android:orientation="vertical" android:padding="20dp" android:gravity="center" android:layout_marginTop="18dp" android:visibility="visible">
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Diagnóstico IA" android:textColor="@color/text_secondary" android:textStyle="bold" android:textSize="15sp"/>
             <TextView android:id="@+id/tvIAMensajeDashboard" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Sin diagnóstico todavía. Toma una foto clara de tu planta." android:textColor="@color/text_secondary" android:textSize="13sp" android:layout_marginTop="8dp"/>
         </LinearLayout>
-        <!--  CARD: Resultado IA — con datos (oculto al inicio)  -->
+        <!--  CARD: Resultado IA limpio  -->
         <LinearLayout android:id="@+id/layoutResult" android:layout_width="match_parent" android:layout_height="wrap_content" android:background="@drawable/card_glass" android:orientation="vertical" android:padding="20dp" android:layout_marginTop="18dp" android:visibility="gone">
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Diagnóstico IA" android:textColor="@color/text_secondary" android:textStyle="bold" android:textSize="15sp"/>
-            <TextView android:id="@+id/tvIAPlant" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="" android:textColor="@color/text_primary" android:textSize="22sp" android:textStyle="bold" android:layout_marginTop="10dp"/>
-            <TextView android:id="@+id/tvIAConfianza" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="" android:textColor="@color/text_secondary" android:textSize="13sp" android:layout_marginTop="4dp"/>
-            <TextView android:id="@+id/tvIAEstado" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="" android:textColor="#86EFAC" android:textSize="18sp" android:textStyle="bold" android:layout_marginTop="10dp"/>
-            <TextView android:id="@+id/tvIAConsejo" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="" android:textColor="@color/text_secondary" android:textSize="13sp" android:layout_marginTop="8dp"/>
-            <Button android:id="@+id/btnRetryScan" android:layout_width="match_parent" android:layout_height="52dp" android:layout_marginTop="16dp" android:text="Tomar otra foto" android:textAllCaps="false" android:textColor="@android:color/white" android:textStyle="bold" android:textSize="14sp" android:background="@drawable/button_green"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Resultado de la revisión" android:textColor="@color/text_secondary" android:textStyle="bold" android:textSize="15sp"/>
+            <TextView android:id="@+id/tvIAPlant" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Requiere atención" android:textColor="@color/text_primary" android:textSize="25sp" android:textStyle="bold" android:layout_marginTop="10dp"/>
+            <TextView android:id="@+id/tvIAConfianza" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Rosal detectado • 99% de confianza • Guardado" android:textColor="@color/text_secondary" android:textSize="13sp" android:layout_marginTop="5dp"/>
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#2E5A45" android:layout_marginTop="16dp" android:layout_marginBottom="16dp"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Diagnóstico" android:textColor="@color/text_secondary" android:textStyle="bold" android:textSize="14sp"/>
+            <TextView android:id="@+id/tvIAEstado" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Problema detectado: Pulgones" android:textColor="#86EFAC" android:textSize="20sp" android:textStyle="bold" android:layout_marginTop="6dp"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Recomendación" android:textColor="@color/text_secondary" android:textStyle="bold" android:textSize="14sp" android:layout_marginTop="16dp"/>
+            <TextView android:id="@+id/tvIAConsejo" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Limpia hojas y brotes. Aplica jabón potásico o aceite de neem. Revisa el envés de las hojas." android:textColor="@color/text_secondary" android:textSize="14sp" android:lineSpacingExtra="3dp" android:layout_marginTop="6dp"/>
+            <Button android:id="@+id/btnRetryScan" android:layout_width="match_parent" android:layout_height="54dp" android:layout_marginTop="18dp" android:text="Tomar otra foto" android:textAllCaps="false" android:textColor="@android:color/white" android:textStyle="bold" android:textSize="15sp" android:background="@drawable/button_green"/>
         </LinearLayout>
         <!--  CARD: Humedad y Temperatura  -->
         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="18dp">
             <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:background="@drawable/card_glass" android:orientation="vertical" android:padding="18dp">
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Humedad" android:textColor="@color/text_secondary"/>
-                <TextView android:id="@+id/tvHumedad" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="--" android:textColor="@color/text_primary" android:textStyle="bold" android:textSize="28sp" android:layout_marginTop="10dp"/>
+                <TextView android:id="@+id/tvHumedad" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="--%" android:textColor="@color/text_primary" android:textStyle="bold" android:textSize="28sp" android:layout_marginTop="10dp"/>
             </LinearLayout>
             <Space android:layout_width="14dp" android:layout_height="1dp"/>
             <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:background="@drawable/card_glass" android:orientation="vertical" android:padding="18dp">
@@ -56,30 +59,20 @@
                     <TextView android:id="@+id/tvHumedadSuelo" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="--%" android:textColor="@color/text_primary" android:textStyle="bold" android:textSize="24sp" android:layout_marginTop="4dp"/>
                 </LinearLayout>
                 <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="🧂 Salinidad" android:textColor="@color/text_secondary" android:textSize="13sp"/>
-                    <TextView android:id="@+id/tvSalinidad" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="--" android:textColor="@color/text_primary" android:textStyle="bold" android:textSize="24sp" android:layout_marginTop="4dp"/>
-                </LinearLayout>
-            </LinearLayout>
-            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="14dp">
-                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
                     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="🔋 Batería" android:textColor="@color/text_secondary" android:textSize="13sp"/>
                     <TextView android:id="@+id/tvBateria" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="--%" android:textColor="@color/text_primary" android:textStyle="bold" android:textSize="24sp" android:layout_marginTop="4dp"/>
                 </LinearLayout>
-                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical"/>
+                <!--  Se conserva el ID para que DashboardActivity.kt no falle, pero ya no se muestra.  -->
+                <TextView android:id="@+id/tvSalinidad" android:layout_width="0dp" android:layout_height="0dp" android:visibility="gone"/>
             </LinearLayout>
             <Button android:id="@+id/btnConectarESP32" android:layout_width="match_parent" android:layout_height="48dp" android:layout_marginTop="16dp" android:text="Conectar ESP32 a esta planta" android:textAllCaps="false" android:textColor="@color/text_primary" android:textStyle="bold" android:textSize="14sp" android:background="@drawable/button_dark"/>
         </LinearLayout>
         <!--  CARD: Escanear con IA  -->
         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:background="@drawable/card_glass" android:orientation="vertical" android:padding="20dp" android:layout_marginTop="18dp">
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Escanear con IA" android:textColor="@color/text_primary" android:textStyle="bold" android:textSize="17sp"/>
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Detecta el estado de tu planta usando inteligencia artificial" android:textColor="@color/text_secondary" android:textSize="13sp" android:layout_marginTop="6dp" android:layout_marginBottom="16dp"/>
-            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
-                <Button android:id="@+id/btnScanCamera" android:layout_width="0dp" android:layout_height="52dp" android:layout_weight="1" android:text="Cámara" android:textAllCaps="false" android:textColor="@android:color/white" android:textStyle="bold" android:textSize="14sp" android:background="@drawable/button_green"/>
-                <Space android:layout_width="12dp" android:layout_height="1dp"/>
-                <Button android:id="@+id/btnScanESP32" android:layout_width="0dp" android:layout_height="52dp" android:layout_weight="1" android:text="ESP32-CAM" android:textAllCaps="false" android:textColor="@color/text_primary" android:textStyle="bold" android:textSize="14sp" android:background="@drawable/button_dark"/>
-            </LinearLayout>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Toma una foto clara de tu planta para revisar su estado con inteligencia artificial." android:textColor="@color/text_secondary" android:textSize="13sp" android:layout_marginTop="6dp" android:layout_marginBottom="16dp"/>
+            <Button android:id="@+id/btnScanCamera" android:layout_width="match_parent" android:layout_height="54dp" android:text="Tomar foto" android:textAllCaps="false" android:textColor="@android:color/white" android:textStyle="bold" android:textSize="15sp" android:background="@drawable/button_green"/>
         </LinearLayout>
-        <!--  Botones principales  -->
         <Button android:id="@+id/btnCare" android:layout_width="match_parent" android:layout_height="58dp" android:layout_marginTop="28dp" android:text="Registrar actividad" android:textAllCaps="false" android:textColor="@android:color/white" android:textStyle="bold" android:textSize="16sp" android:background="@drawable/button_green"/>
         <Button android:id="@+id/btnHistory" android:layout_width="match_parent" android:layout_height="58dp" android:layout_marginTop="14dp" android:text="Ver historial" android:textAllCaps="false" android:textColor="@color/text_primary" android:textStyle="bold" android:textSize="16sp" android:background="@drawable/button_dark"/>
     </LinearLayout>

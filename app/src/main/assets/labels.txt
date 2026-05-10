@@ -1,12 +1,13 @@
-0 Rosal Sano
-1 Rosal enfermo-roya
-2 Rosal enfermo-pulgones
-3 Cactus Sano
-4 Cactus enfermo-Hongo
-5 Cactus enfermo-Infeccion
-6 Cinta Sana
-7 Cinta enferma-Falta de luz
-8 Cola de borrego Sana
-9 Cola de borrego enfermo-tallo seco
-10 Alcatraz Sano
-11 Alcatraz enfermo-cochinilla escamosa
+0 cola de borrego sana
+1 nada / fondo
+2 rosal sana
+3 Cinta sana
+4 Cactus sano
+5 Alcatraz sana
+6 cola de borrego enfermo-tallo seco
+7 Rosal enfermo-roya
+8 Rosal enfermo-pulgones
+9 Cactus enfermo-Hongo
+10 Cactus enfermo-Infeccion
+11  Cinta enferma-Falta de luz
+12 Alcatraz enfermo-cochinilla escamosa

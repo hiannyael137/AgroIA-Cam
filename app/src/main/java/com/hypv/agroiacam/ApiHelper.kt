@@ -21,7 +21,7 @@ object ApiHelper {
 
     // Cambia esta IP si tu laptop cambia de red.
     // Para emulador Android Studio usa: http://10.0.2.2:1880
-    var BASE_URL = "http://172.18.19.87:1880"
+    var BASE_URL = "http:// 192.168.0.16:1880"
 
     private val client = OkHttpClient.Builder()
         .connectTimeout(15, TimeUnit.SECONDS)
@@ -200,9 +200,9 @@ object ApiHelper {
                         val filename = json.optString("filename", "")
                         val imagenUrl = json.optString("imagen_url", "")
                         val finalName = when {
-                            filename.isNotBlank() -> filename
-                            imagenUrl.startsWith("/uploads/") -> imagenUrl.removePrefix("/uploads/")
-                            else -> imagenUrl
+                            imagenUrl.isNotBlank() -> imagenUrl
+                            filename.isNotBlank() -> "/uploads/$filename"
+                            else -> ""
                         }
 
                         if (finalName.isBlank()) {

@@ -48,7 +48,6 @@ class DashboardActivity : AppCompatActivity() {
     private lateinit var tvIAConsejo: TextView
     private lateinit var tvIAMensajeDashboard: TextView
     private lateinit var btnScanCamera: Button
-    private lateinit var btnScanESP32: Button
 
     private val handler = Handler(Looper.getMainLooper())
 
@@ -67,7 +66,7 @@ class DashboardActivity : AppCompatActivity() {
     // Ya no usamos solo el top1 porque el modelo puede dudar entre:
     // Cola de borrego Sana 49% y Cola de borrego enfermo-tallo seco 50%.
     private val minSpeciesScore = 0.65f
-    private val noPlantRejectScore = 0.55f
+    private val noPlantRejectScore = 0.45f
 
     // Validación por salud/enfermedad dentro de la especie detectada.
     // Importante para Rosal y Cactus, porque tienen 2 enfermedades cada uno.
@@ -166,6 +165,16 @@ class DashboardActivity : AppCompatActivity() {
         else Toast.makeText(this, "Permiso de cámara denegado", Toast.LENGTH_SHORT).show()
     }
 
+    private fun iniciarCamaraConPermiso() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+            == PackageManager.PERMISSION_GRANTED
+        ) {
+            openCamera()
+        } else {
+            cameraPermissionLauncher.launch(Manifest.permission.CAMERA)
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
@@ -189,7 +198,6 @@ class DashboardActivity : AppCompatActivity() {
         tvIAConsejo = findViewById(R.id.tvIAConsejo)
         tvIAMensajeDashboard = findViewById(R.id.tvIAMensajeDashboard)
         btnScanCamera = findViewById(R.id.btnScanCamera)
-        btnScanESP32 = findViewById(R.id.btnScanESP32)
 
         layoutEmptyState.visibility = View.VISIBLE
         layoutResult.visibility = View.GONE
@@ -197,8 +205,8 @@ class DashboardActivity : AppCompatActivity() {
 
         restoreDashboardState(savedInstanceState)
 
-        // Se quita ESP32-CAM. Se mantiene cámara del teléfono + sensores ESP32/TTGO.
-        btnScanESP32.visibility = View.GONE
+        // Cámara del teléfono + sensores ESP32/TTGO.
+        // ESP32-CAM fue retirado de la interfaz.
 
         findViewById<ImageButton>(R.id.btnBack).setOnClickListener { finish() }
 
@@ -213,15 +221,8 @@ class DashboardActivity : AppCompatActivity() {
             startActivity(Intent(this, HistoryActivity::class.java))
         }
 
-        btnScanCamera.setOnClickListener {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
-                == PackageManager.PERMISSION_GRANTED
-            ) {
-                openCamera()
-            } else {
-                cameraPermissionLauncher.launch(Manifest.permission.CAMERA)
-            }
-        }
+        btnScanCamera.setOnClickListener { iniciarCamaraConPermiso() }
+        findViewById<Button>(R.id.btnRetryScan).setOnClickListener { iniciarCamaraConPermiso() }
 
         findViewById<Button>(R.id.btnConectarESP32).setOnClickListener { conectarESP32() }
     }
@@ -312,6 +313,7 @@ class DashboardActivity : AppCompatActivity() {
     // SENSORES
     // ============================================================
     private fun limpiarSensores() {
+        tvHumedad.text = "--%"
         tvTemperatura.text = "--°C"
         tvHumedadAmbiente.text = "--%"
         tvHumedadSuelo.text = "--%"
@@ -468,7 +470,7 @@ class DashboardActivity : AppCompatActivity() {
                         especieDetectada = parsed.species,
                         problemaDetectado = parsed.problem,
                         estado = estadoGuardar,
-                        confianza = result.confidence,
+                        confianza = result.probabilities[labelForDiagnosis] ?: speciesAnalysis.registeredSpeciesScore,
                         solucion = solucion,
                         validacion = validation.validationCode,
                         mensajeValidacion = validation.message,
@@ -506,49 +508,63 @@ class DashboardActivity : AppCompatActivity() {
         validation: ValidationResult,
         analysis: SpeciesAnalysis
     ) {
-        val speciesLine = "Planta registrada: ${analysis.registeredSpecies.ifBlank { "Sin dato" }}" +
-                "\nCoincidencia de especie: ${analysis.registeredSpeciesPercent}%" +
-                "\nEspecie más probable: ${analysis.detectedSpecies.ifBlank { "Sin dato" }} (${analysis.detectedSpeciesPercent}%)"
-
-        val healthLine = "\nSano: ${analysis.healthyPercent}% (${analysis.healthySharePercent}% dentro de la especie)" +
-                "\nEnfermedad total: ${analysis.diseaseTotalPercent}% (${analysis.diseaseSharePercent}% dentro de la especie)" +
-                if (analysis.topDiseaseLabel.isNotBlank()) {
-                    "\nEnfermedad sugerida: ${analysis.topDiseaseProblem} (${analysis.topDiseasePercent}%)" +
-                            if (analysis.diseaseOptionsCount > 1 && analysis.secondDiseaseLabel.isNotBlank()) {
-                                "\nSegunda enfermedad: ${analysis.secondDiseaseProblem} (${analysis.secondDiseasePercent}%)" +
-                                        "\nMargen entre enfermedades: ${analysis.diseaseMarginPercent}%"
-                            } else ""
-                } else ""
-
-        tvIAPlant.text = if (validation.accepted) {
-            "${parsed.original}\nDetectado como: ${parsed.species}"
-        } else {
-            when (validation.validationCode) {
-                "SALUD_NO_CONCLUYENTE" -> "Planta reconocida\nSalud/enfermedad no concluyente"
-                "ENFERMEDAD_NO_CONCLUYENTE" -> "Planta reconocida\nTipo de enfermedad no concluyente"
-                "ESPECIE_NO_SEGURA" -> "Foto no confirmada\nNo se reconoce bien la especie"
-                "NO_COINCIDE" -> "La foto no coincide\nIA sugirió: ${result.label}"
-                else -> "Diagnóstico no aceptado\nIA sugirió: ${result.label}"
-            }
-        }
-
-        tvIAConfianza.text = "$speciesLine$healthLine"
-        tvIAEstado.text = validation.status
-        tvIAConsejo.text = validation.message
-        tvIAMensajeDashboard.text = "Última revisión: ${validation.status}"
-
-        val estadoVisible = if (validation.accepted) validation.status else "Sin diagnóstico"
-        tvEstado.text = estadoConIcono(estadoVisible)
-
         layoutEmptyState.visibility = View.GONE
         layoutResult.visibility = View.VISIBLE
         hasVisibleDiagnosis = true
+
+        if (!validation.accepted) {
+            tvIAPlant.text = when (validation.validationCode) {
+                "NO_PLANTA" -> "Foto no válida"
+                "NO_COINCIDE" -> "La foto no coincide"
+                "ESPECIE_NO_SEGURA" -> "Planta no confirmada"
+                "SALUD_NO_CONCLUYENTE" -> "Resultado no concluyente"
+                "ENFERMEDAD_NO_CONCLUYENTE" -> "Revisión no concluyente"
+                else -> "No se pudo confirmar"
+            }
+
+            tvIAConfianza.text = "No se guardó en historial"
+            tvIAEstado.text = validation.status
+            tvIAEstado.setTextColor(0xFFFCD34D.toInt())
+            tvIAConsejo.text = validation.message
+            tvIAMensajeDashboard.text = validation.status
+            tvEstado.text = "Sin diagnóstico"
+            return
+        }
+
+        val especie = parsed.species.ifBlank {
+            analysis.registeredSpecies.ifBlank { "Planta" }
+        }
+
+        val confianza = when {
+            analysis.decisionHealthy -> analysis.healthyPercent
+            analysis.topDiseasePercent > 0 -> analysis.topDiseasePercent
+            else -> result.confidencePercent
+        }.coerceIn(0, 100)
+
+        if (analysis.decisionHealthy) {
+            tvIAPlant.text = "Planta saludable"
+            tvIAConfianza.text = "$especie detectado • $confianza% de confianza • Guardado"
+            tvIAEstado.text = "No se detectó enfermedad visible"
+            tvIAEstado.setTextColor(0xFF86EFAC.toInt())
+            tvIAConsejo.text = validation.message
+            tvIAMensajeDashboard.text = "Última revisión: planta saludable"
+            tvEstado.text = "Saludable"
+        } else {
+            tvIAPlant.text = "Requiere atención"
+            tvIAConfianza.text = "$especie detectado • $confianza% de confianza • Guardado"
+            tvIAEstado.text = "Problema detectado: ${analysis.decisionProblem.ifBlank { parsed.problem }}"
+            tvIAEstado.setTextColor(0xFF86EFAC.toInt())
+            tvIAConsejo.text = validation.message
+            tvIAMensajeDashboard.text = "Última revisión: requiere atención"
+            tvEstado.text = "Problema detectado: ${analysis.decisionProblem.ifBlank { parsed.problem }}"
+        }
     }
 
     private fun showErrorDiagnosis(title: String, msg: String) {
         tvIAPlant.text = title
-        tvIAConfianza.text = ""
+        tvIAConfianza.text = "No se guardó ningún diagnóstico"
         tvIAEstado.text = "No se pudo analizar"
+        tvIAEstado.setTextColor(0xFFEF4444.toInt())
         tvIAConsejo.text = msg
         tvIAMensajeDashboard.text = "Error analizando la foto. Intenta otra vez."
         layoutEmptyState.visibility = View.GONE
@@ -689,11 +705,17 @@ class DashboardActivity : AppCompatActivity() {
         parsed: ParsedLabel,
         analysis: SpeciesAnalysis
     ): ValidationResult {
-        if (analysis.noPlantScore >= noPlantRejectScore && analysis.noPlantScore >= analysis.registeredSpeciesScore) {
+        val topParsed = parseLabel(result.label)
+
+        if (
+            topParsed.isNoPlant ||
+            parsed.isNoPlant ||
+            (analysis.noPlantScore >= noPlantRejectScore && analysis.noPlantScore >= analysis.registeredSpeciesScore)
+        ) {
             return ValidationResult(
                 accepted = false,
-                status = "No es planta compatible",
-                message = "La imagen parece ser fondo, objeto o una planta fuera del modelo. Toma una foto clara de una planta registrada.",
+                status = "Foto no válida",
+                message = "La imagen parece ser fondo, objeto o una foto sin planta. Toma otra foto donde se vea claramente la planta registrada.",
                 validationCode = "NO_PLANTA"
             )
         }
@@ -701,8 +723,8 @@ class DashboardActivity : AppCompatActivity() {
         if (analysis.registeredSpeciesScore < minSpeciesScore) {
             return ValidationResult(
                 accepted = false,
-                status = "Especie no segura",
-                message = "La IA no puede confirmar que la imagen sea ${analysis.registeredSpecies}. Coincidencia de especie: ${analysis.registeredSpeciesPercent}%. Toma otra foto con la planta completa, buena luz y fondo limpio.",
+                status = "Planta no confirmada",
+                message = "No se pudo confirmar que la foto corresponda a ${analysis.registeredSpecies}. Toma otra foto con buena luz, enfocada y mostrando la planta completa.",
                 validationCode = "ESPECIE_NO_SEGURA"
             )
         }
@@ -715,7 +737,7 @@ class DashboardActivity : AppCompatActivity() {
             return ValidationResult(
                 accepted = false,
                 status = "No coincide con esta planta",
-                message = "Esta ficha es de '${analysis.registeredSpecies}', pero la IA detectó más fuerte '${analysis.detectedSpecies}' (${analysis.detectedSpeciesPercent}%). No se guardó diagnóstico para evitar un falso resultado.",
+                message = "Esta ficha es de ${analysis.registeredSpecies}, pero la foto parece ser de ${analysis.detectedSpecies}. No se guardó el diagnóstico para evitar un resultado falso.",
                 validationCode = "NO_COINCIDE"
             )
         }
@@ -728,19 +750,14 @@ class DashboardActivity : AppCompatActivity() {
             }
 
             val msg = if (code == "ENFERMEDAD_NO_CONCLUYENTE") {
-                "La planta sí parece ser ${analysis.registeredSpecies}, pero no se puede distinguir con seguridad entre sus enfermedades entrenadas. " +
-                        "Principal: ${analysis.topDiseaseProblem.ifBlank { "sin dato" }} (${analysis.topDiseasePercent}%). " +
-                        "Segunda: ${analysis.secondDiseaseProblem.ifBlank { "sin dato" }} (${analysis.secondDiseasePercent}%). " +
-                        "Toma una foto más cerca del síntoma: hojas, tallo, manchas o plaga."
+                "La planta sí fue reconocida, pero la foto no permite distinguir con seguridad el tipo de enfermedad. Toma otra foto más cerca del síntoma, con buena luz y enfoque."
             } else {
-                "La planta sí parece ser ${analysis.registeredSpecies}, pero la IA duda entre sana y enferma. " +
-                        "Sano: ${analysis.healthyPercent}%, enfermedad total: ${analysis.diseaseTotalPercent}%. " +
-                        "Toma otra foto con buena luz, enfoque y mostrando claramente hojas/tallo."
+                "La planta fue reconocida, pero la IA no puede confirmar si está sana o enferma. Toma otra foto mostrando hojas y tallo con buena luz."
             }
 
             return ValidationResult(
                 accepted = false,
-                status = if (code == "ENFERMEDAD_NO_CONCLUYENTE") "Enfermedad no concluyente" else "Salud no concluyente",
+                status = if (code == "ENFERMEDAD_NO_CONCLUYENTE") "Revisión no concluyente" else "Resultado no concluyente",
                 message = msg,
                 validationCode = code
             )
@@ -768,6 +785,7 @@ class DashboardActivity : AppCompatActivity() {
         val lower = clean.lowercase(Locale.ROOT)
 
         val noPlant = lower.contains("no planta") ||
+                lower.contains("nada") ||
                 lower.contains("fondo") ||
                 lower.contains("background") ||
                 lower.contains("objeto") ||
